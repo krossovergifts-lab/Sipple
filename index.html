@@ -1329,11 +1329,15 @@ document.addEventListener('click',e=>{
 });
 window.addEventListener('popstate',e=>{if(e.state) navigate(e.state.pageId,e.state.sectionId);});
 (function routeOnLoad(){
-  const p=location.pathname;
-  if(p==='/products') navigate('products',null);
-  else if(p==='/our-story') navigate('story',null);
-  else if(p==='/gallery') navigate('gallery',null);
+  /* Normalize: strip trailing slash, lowercase */
+  const p=location.pathname.replace(/\/+$/,'').toLowerCase()||'/';
+  if(p==='/products')                    navigate('products',null);
+  else if(p==='/our-story')              navigate('story',null);
+  else if(p==='/gallery')               navigate('gallery',null);
   else if(p==='/contact'||p==='/wholesale'||p==='/branding'||p==='/shipping'||p==='/faq') navigate('home','contact-section');
+  else if(p==='/reviews')               navigate('home','reviews-section');
+  /* For root '/' or any unknown path — show home, no navigate() call needed */
+  /* home page is already active by default in HTML */
 })();
 
 /* Mobile menu */
