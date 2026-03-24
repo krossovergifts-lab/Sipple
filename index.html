@@ -154,13 +154,37 @@ body:has(a:hover) #cur,body:has(button:hover) #cur{width:18px;height:18px;opacit
 .hero-h1 em{font-style:italic;color:var(--blue)}
 .hero-sub{font-size:clamp(.92rem,1.45vw,1rem);color:var(--txt2);max-width:42ch;line-height:1.76;margin-top:1.35rem;animation:fadeUp .6s var(--e1) .35s both}
 .hero-btns{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.8rem;animation:fadeUp .6s var(--e1) .48s both}
-.hero-metrics{display:flex;flex-wrap:wrap;gap:clamp(1.2rem,3vw,2.5rem);margin-top:2.2rem;animation:fadeUp .6s var(--e1) .6s both}
-.m-num{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.65rem,2.8vw,2.3rem);line-height:1}
-.m-lbl{font-size:.64rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-top:.25rem}
+
 .hero-vis{position:relative;display:flex;align-items:center;justify-content:center;min-height:clamp(360px,50vw,580px);animation:fadeUp .6s var(--e1) .25s both}
 .hero-glow{position:absolute;width:50%;height:50%;background:radial-gradient(circle,var(--bglow) 0%,transparent 70%);border-radius:50%;animation:pulse 4s ease-in-out infinite}
 /* NO shadow on bottles */
 .hero-bottle{position:relative;z-index:1;width:clamp(180px,26vw,300px);filter:none!important;animation:float 6s ease-in-out infinite}
+/* Mobile hero bottle strip — always dark bg so white bottle pops */
+.hero-mob-bottle{
+  display:none; /* shown via media query */
+  width:100%;
+  margin-top:1.75rem;
+  border-radius:var(--r2);
+  overflow:hidden;
+  background:#0b1020;
+  position:relative;
+  padding:1.25rem 0 1.25rem;
+  text-align:center;
+}
+.hero-mob-bottle::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 55% at 50% 70%,rgba(4,96,217,.35) 0%,transparent 65%);
+  pointer-events:none;
+}
+.hero-mob-bottle img{
+  position:relative;z-index:1;
+  width:clamp(110px,32vw,160px);
+  height:auto;
+  filter:none!important;
+  animation:float 6s ease-in-out infinite;
+  margin-inline:auto;
+}
+
 .chip{position:absolute;z-index:2;background:var(--surf);border:1px solid var(--bdr2);border-radius:.85rem;padding:.7rem 1rem;backdrop-filter:blur(10px)}
 .chip-val{font-family:'Syne',sans-serif;font-weight:800;font-size:.93rem;color:var(--txt)}
 .chip-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);font-weight:600;margin-top:.15rem}
@@ -201,12 +225,94 @@ body:has(a:hover) #cur,body:has(button:hover) #cur{width:18px;height:18px;opacit
 .feat-ring{position:absolute;width:80%;height:80%;border-radius:50%;border:1px solid rgba(4,96,217,.1);animation:spin 28s linear infinite}
 .feat-ring2{position:absolute;width:60%;height:60%;border-radius:50%;border:1px dashed rgba(4,96,217,.06);animation:spin 18s linear infinite reverse}
 .feat-glow{position:absolute;width:50%;height:50%;background:radial-gradient(circle,var(--bglow) 0%,transparent 70%);border-radius:50%;animation:pulse 5s ease-in-out infinite}
-/* NO shadow on featured bottle */
 #featImg{position:relative;z-index:1;width:clamp(150px,20vw,250px);filter:none!important;transition:opacity .32s;animation:float 7s ease-in-out infinite}
 .clr-btns{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.5rem}
-.clr-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .9rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:600;border:1.5px solid var(--bdr2);color:var(--txt2);background:transparent;cursor:none;transition:all .2s}
+.clr-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .9rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:600;border:1.5px solid var(--bdr2);color:var(--txt2);background:transparent;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent}
 .clr-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--bdim)}
 .clr-btn.active{border-color:var(--blue);background:var(--blue);color:#fff!important}
+
+/* ── Mobile featured card — bottle + colour switcher always visible ── */
+.feat-mob-card{
+  display:none; /* shown only on mobile via media query */
+  background:var(--surf2);
+  border:1px solid var(--bdr);
+  border-radius:var(--r2);
+  overflow:hidden;
+}
+.feat-mob-top{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  min-height:240px;
+}
+.feat-mob-img{
+  position:relative;
+  /* Always dark so white bottle is always visible regardless of theme */
+  background:#0b1020;
+  display:flex;align-items:center;justify-content:center;
+  padding:1.25rem;
+  border-right:1px solid var(--bdr);
+  overflow:hidden;
+}
+.feat-mob-img::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 60%,rgba(4,96,217,.3) 0%,transparent 65%);
+  pointer-events:none;
+}
+#featImgMob{
+  position:relative;z-index:1;
+  width:100%;max-width:120px;
+  height:auto;
+  filter:none!important;
+  transition:opacity .32s,transform .32s;
+  animation:float 6s ease-in-out infinite;
+}
+.feat-mob-info{
+  padding:1.1rem 1rem;
+  display:flex;flex-direction:column;justify-content:center;
+  gap:.5rem;
+}
+.feat-mob-name{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:.95rem;line-height:1.2;color:var(--txt);
+}
+.feat-mob-sub{font-size:.75rem;color:var(--txt2);line-height:1.5}
+.feat-mob-specs{display:grid;gap:.35rem;margin-top:.5rem}
+.feat-mob-spec{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.7rem;padding:.4rem .55rem;
+  background:var(--surf);border:1px solid var(--bdr);
+  border-radius:.5rem;
+}
+.feat-mob-spec-k{font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--txt3);font-size:.62rem}
+.feat-mob-spec-v{font-family:'Syne',sans-serif;font-weight:700;color:var(--txt);font-size:.72rem}
+/* Colour switcher bar at bottom of card */
+.feat-mob-clrs{
+  display:flex;gap:.5rem;flex-wrap:wrap;
+  padding:.9rem 1rem;
+  border-top:1px solid var(--bdr);
+  background:var(--surf);
+  align-items:center;
+}
+.feat-mob-clrs-label{
+  font-size:.62rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--txt3);margin-right:.25rem;
+}
+.feat-mob-btn{
+  display:inline-flex;align-items:center;gap:.38rem;
+  padding:.32rem .75rem;border-radius:999px;
+  font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;
+  border:1.5px solid var(--bdr2);color:var(--txt2);
+  background:transparent;cursor:pointer;
+  transition:all .2s;-webkit-tap-highlight-color:transparent;
+}
+.feat-mob-btn.active{border-color:var(--blue);background:var(--blue);color:#fff!important}
+.feat-mob-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+/* View all link */
+.feat-mob-footer{
+  padding:.85rem 1rem;border-top:1px solid var(--bdr);
+  display:flex;justify-content:space-between;align-items:center;
+}
 .clr-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 .spec-list{display:grid;gap:.5rem;margin-top:1.75rem}
 .spec-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:.7rem;transition:border-color .2s,background .2s}
@@ -418,7 +524,11 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
 /* RESPONSIVE */
 @media(max-width:1024px){
   .hero-grid,.about-grid,.feat-grid,.custom-grid,.contact-grid,.sh-grid,.mani-inner,.miss-grid{grid-template-columns:1fr}
-  .hero-vis,.feat-vis{display:none}
+  .hero-vis{display:none}
+  .hero-mob-bottle{display:block}
+  /* Featured: hide desktop layout, show compact mobile card */
+  .feat-grid{display:none}
+  .feat-mob-card{display:block}
   .life-grid{grid-template-columns:1fr}
   .sstats-row{grid-template-columns:repeat(2,1fr)}
   .ftop{grid-template-columns:1fr 1fr}
@@ -587,10 +697,10 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
               <a href="/products" class="btn btn-p" data-page="products">Shop Collection →</a>
               <a href="/our-story" class="btn btn-o" data-page="story">Our Story</a>
             </div>
-            <div class="hero-metrics">
-              <div><div class="m-num">4</div><div class="m-lbl">Smart Products</div></div>
-              <div><div class="m-num">700ml</div><div class="m-lbl">Max Capacity</div></div>
-              <div><div class="m-num">7000</div><div class="m-lbl">RPM Motor</div></div>
+            <!-- Mobile-only bottle preview (dark bg so white bottle is visible) -->
+            <div class="hero-mob-bottle" aria-hidden="true">
+              <img src="images/hero-bottle.png" alt="" width="160" height="300" loading="eager">
+
             </div>
           </div>
           <div class="hero-vis" aria-hidden="true">
@@ -666,6 +776,45 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
           <div style="margin-top:1.5rem" class="reveal"><a href="/products" class="btn btn-p" data-page="products">View All Products →</a></div>
         </div>
       </div>
+
+      <!-- ── Mobile compact card (visible only on mobile) ── -->
+      <div class="feat-mob-card reveal">
+        <div class="feat-mob-top">
+          <!-- Bottle image left -->
+          <div class="feat-mob-img">
+            <img id="featImgMob" src="images/spl-chalk.png" alt="SPL+ Chalk White" width="120" height="240" loading="lazy">
+          </div>
+          <!-- Specs right -->
+          <div class="feat-mob-info">
+            <div style="display:flex;gap:.35rem;flex-wrap:wrap">
+              <span style="background:var(--blue);color:#fff;padding:.18rem .52rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700">NEW</span>
+              <span style="background:var(--surf);border:1px solid var(--bdr);padding:.18rem .52rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;color:var(--txt2)">SPL+ · 11651</span>
+            </div>
+            <div class="feat-mob-name">Magnetic Insulated Water Bottle</div>
+            <div class="feat-mob-sub">700ml · Stainless Steel · MagSafe</div>
+            <div class="feat-mob-specs">
+              <div class="feat-mob-spec"><span class="feat-mob-spec-k">Capacity</span><span class="feat-mob-spec-v">700 ml</span></div>
+              <div class="feat-mob-spec"><span class="feat-mob-spec-k">Material</span><span class="feat-mob-spec-v">Stainless Steel</span></div>
+              <div class="feat-mob-spec"><span class="feat-mob-spec-k">Print Area</span><span class="feat-mob-spec-v">85 × 32 mm</span></div>
+              <div class="feat-mob-spec"><span class="feat-mob-spec-k">Printing</span><span class="feat-mob-spec-v">UV / Engraving</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Colour switcher bar -->
+        <div class="feat-mob-clrs" role="group" aria-label="Choose colour">
+          <span class="feat-mob-clrs-label">Colour</span>
+          <button class="feat-mob-btn active" data-mob-img="images/spl-chalk.png" data-mob-alt="SPL+ Chalk" aria-pressed="true"><span class="feat-mob-dot" style="background:#d8d0c0;border:1px solid rgba(0,0,0,.12)"></span>Chalk</button>
+          <button class="feat-mob-btn" data-mob-img="images/spl-forest.png" data-mob-alt="SPL+ Forest" aria-pressed="false"><span class="feat-mob-dot" style="background:#3a5a2e"></span>Forest</button>
+          <button class="feat-mob-btn" data-mob-img="images/spl-navy.png" data-mob-alt="SPL+ Navy" aria-pressed="false"><span class="feat-mob-dot" style="background:#1a2a5e"></span>Navy</button>
+          <button class="feat-mob-btn" data-mob-img="images/spl-black.png" data-mob-alt="SPL+ Black" aria-pressed="false"><span class="feat-mob-dot" style="background:#1e1e1e;border:1px solid #555"></span>Black</button>
+        </div>
+        <!-- Footer -->
+        <div class="feat-mob-footer">
+          <span style="font-size:.75rem;color:var(--txt2)">Tap a colour to preview →</span>
+          <a href="/products" class="btn btn-p btn-sm" data-page="products">View All</a>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -761,7 +910,7 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
           <button type="submit" class="btn btn-p" style="justify-self:start">Send Message →</button>
         </form>
         <div class="ci-list reveal d2">
-          <div class="ci"><div class="ci-ico">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection#c1b2a0ada4b2f081aab3aeb2b2ecaeb7a4b3efafa4b5"><span class="__cf_email__" data-cfemail="85f6e4e9e0f6b4c5eef7eaf6f6a8eaf3e0f7abebe0f1">[email&#160;protected]</span></a></div></div></div>
+          <div class="ci"><div class="ci-ico">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:sales1@kross-over.net">sales1@kross-over.net</a></div></div></div>
           <div class="ci"><div class="ci-ico">💬</div><div><div class="ci-lbl">WhatsApp</div><div class="ci-val"><a href="https://wa.me/971527940227" target="_blank" rel="noopener" style="color:var(--green)">+971 52 794 0227</a></div></div></div>
           <div class="ci"><div class="ci-ico">🎨</div><div><div class="ci-lbl">Custom Branding</div><div class="ci-val">Minimum 50 units per design</div></div></div>
           <div class="ci"><div class="ci-ico">🚚</div><div><div class="ci-lbl">Shipping</div><div class="ci-val">Worldwide · Free on 100+ orders</div></div></div>
@@ -1077,7 +1226,7 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
       </div>
       <div class="fcol"><h4>Products</h4><ul><li><a href="/products" data-page="products">SPL+ Bottle</a></li><li><a href="/products" data-page="products">Primexa Shaker</a></li><li><a href="/products" data-page="products">Mixpro Shaker</a></li><li><a href="/products" data-page="products">Mixera Cup</a></li></ul></div>
       <div class="fcol"><h4>Company</h4><ul><li><a href="/our-story" data-page="story">About SIPPLE</a></li><li><a href="/gallery" data-page="gallery">Gallery</a></li><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Contact</a></li><li><a href="/products" data-page="products">All Products</a></li></ul></div>
-      <div class="fcol"><h4>Support</h4><ul><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Wholesale</a></li><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Custom Branding</a></li><li><a href="/cdn-cgi/l/email-protection#95e6f4f9f0e6a4d5fee7fae6e6b8fae3f0e7bbfbf0e1">Shipping &amp; Returns</a></li><li><a href="/cdn-cgi/l/email-protection#d3a0b2bfb6a0e293b8a1bca0a0febca5b6a1fdbdb6a7">FAQ</a></li></ul></div>
+      <div class="fcol"><h4>Support</h4><ul><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Wholesale</a></li><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Custom Branding</a></li><li><a href="mailto:sales1@kross-over.net">Shipping &amp; Returns</a></li><li><a href="mailto:sales1@kross-over.net">FAQ</a></li></ul></div>
     </div>
     <div class="fbot">
       <p class="fcopy">© 2026 SIPPLE. All rights reserved. Smart Hydration for Modern Lifestyles.</p>
@@ -1090,7 +1239,7 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 'use strict';
 /* Theme: restore before paint */
 (function(){const t=localStorage.getItem('sipple-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
@@ -1195,7 +1344,7 @@ function initReveal(){
 }
 initReveal();
 
-/* Colour switcher */
+/* Colour switcher — desktop */
 document.querySelectorAll('.clr-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.clr-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
@@ -1204,6 +1353,24 @@ document.querySelectorAll('.clr-btn').forEach(btn=>{
     if(img&&src){
       img.style.opacity='0';img.style.transform='scale(.96)';
       setTimeout(()=>{img.src=src;img.alt=alt;img.style.transition='opacity .32s,transform .32s';img.style.opacity='1';img.style.transform='';},200);
+    }
+  });
+});
+
+/* Colour switcher — mobile card */
+document.querySelectorAll('.feat-mob-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.feat-mob-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
+    btn.classList.add('active');btn.setAttribute('aria-pressed','true');
+    const img=document.getElementById('featImgMob');
+    const src=btn.dataset.mobImg||'',alt=btn.dataset.mobAlt||'';
+    if(img&&src){
+      img.style.opacity='0';img.style.transform='scale(.92)';
+      setTimeout(()=>{
+        img.src=src;img.alt=alt;
+        img.style.transition='opacity .3s,transform .3s';
+        img.style.opacity='1';img.style.transform='';
+      },180);
     }
   });
 });
