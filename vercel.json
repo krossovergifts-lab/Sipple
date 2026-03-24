@@ -2,10 +2,16 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/((?!images/).*)",
-      "destination": "/index.html"
-    }
+    { "source": "/products",   "destination": "/index.html" },
+    { "source": "/our-story",  "destination": "/index.html" },
+    { "source": "/gallery",    "destination": "/index.html" },
+    { "source": "/contact",    "destination": "/index.html" },
+    { "source": "/wholesale",  "destination": "/index.html" },
+    { "source": "/branding",   "destination": "/index.html" },
+    { "source": "/shipping",   "destination": "/index.html" },
+    { "source": "/faq",        "destination": "/index.html" },
+    { "source": "/about",      "destination": "/index.html" },
+    { "source": "/reviews",    "destination": "/index.html" }
   ],
   "headers": [
     {
