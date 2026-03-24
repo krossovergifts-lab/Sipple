@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="SIPPLE – Premium smart drinkware. Magnetic bottles, electric shakers, smart mixing cups.">
+<title>SIPPLE – Hydration Made Smarter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Playfair+Display:ital,wght@0,700;0,800;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+
+/* ═══════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════ */
+:root{
+  --bg:#07090f;--bg2:#0b0f1a;--surf:#0e1422;--surf2:#131c30;
+  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.13);
+  --txt:#ffffff;--txt2:rgba(255,255,255,.58);--txt3:rgba(255,255,255,.32);
+  --blue:#0460D9;--blue2:#1a72e8;--bdim:rgba(4,96,217,.12);--bglow:rgba(4,96,217,.22);
+  --green:#25D366;
+  --r:.9rem;--r2:1.25rem;--navh:68px;
+  --e1:cubic-bezier(.25,.8,.25,1);--e2:cubic-bezier(.22,.68,0,1.2);--e3:cubic-bezier(.4,0,.2,1);
+}
+[data-theme="light"]{
+  --bg:#f0f4fb;--bg2:#ffffff;--surf:#ffffff;--surf2:#e6ecf8;
+  --bdr:rgba(0,0,0,.07);--bdr2:rgba(0,0,0,.14);
+  --txt:#0b1220;--txt2:rgba(11,18,32,.58);--txt3:rgba(11,18,32,.34);
+  --bdim:rgba(4,96,217,.08);--bglow:rgba(4,96,217,.14);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden;line-height:1.6;cursor:none;transition:background .3s var(--e3),color .3s var(--e3)}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{cursor:none;border:none;background:none;font-family:inherit;color:inherit}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* CURSOR */
+#cur{position:fixed;z-index:9999;pointer-events:none;width:8px;height:8px;background:var(--blue);border-radius:50%;transform:translate(-50%,-50%);transition:width .18s,height .18s,opacity .2s;opacity:0;left:-100px;top:-100px}
+#curR{position:fixed;z-index:9998;pointer-events:none;width:28px;height:28px;border:1.5px solid rgba(4,96,217,.45);border-radius:50%;transform:translate(-50%,-50%);opacity:0;left:-100px;top:-100px}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:18px;height:18px;opacity:.6}
+
+/* UTILS */
+.container{width:min(1240px,92vw);margin-inline:auto}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s var(--e1),transform .6s var(--e1)}
+.reveal.vis{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
+.label{display:block;font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:.65rem}
+.sec-title{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.5vw,3rem);font-weight:800;line-height:1.06;letter-spacing:-.022em;color:var(--txt)}
+.sec-body{font-size:.95rem;color:var(--txt2);line-height:1.78;max-width:52ch;margin-top:.65rem}
+.section{padding-block:clamp(4.5rem,9vw,8rem)}
+.section-alt{background:var(--surf)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;border-radius:999px;font-family:'Syne',sans-serif;font-weight:700;font-size:.84rem;letter-spacing:.01em;transition:transform .2s var(--e2),box-shadow .2s,background .2s,color .2s,border-color .2s;cursor:none;white-space:nowrap;text-decoration:none}
+.btn-p{padding:.82rem 1.75rem;background:var(--blue);color:#fff!important;border:none}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 10px 26px var(--bglow)}
+.btn-o{padding:.8rem 1.75rem;background:transparent;color:var(--txt)!important;border:1.5px solid var(--bdr2)}
+.btn-o:hover{border-color:var(--blue);background:var(--bdim);color:var(--blue)!important}
+.btn-wa{padding:.8rem 1.75rem;background:var(--green);color:#fff!important;border:none}
+.btn-wa:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(37,211,102,.28)}
+.btn-sm{padding:.52rem 1.15rem;font-size:.77rem}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--navh);display:flex;align-items:center;padding-inline:clamp(1.25rem,3vw,2.5rem);background:transparent;border-bottom:1px solid transparent;transition:background .35s var(--e3),border-color .35s,backdrop-filter .35s}
+#nav.scrolled{background:rgba(7,9,15,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-color:var(--bdr)}
+[data-theme="light"] #nav.scrolled{background:rgba(240,244,251,.94);backdrop-filter:blur(18px)}
+.nav-inner{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0}
+.logo-img{width:106px;height:auto;display:block;transition:opacity .2s}
+[data-theme="light"] .logo-img{filter:brightness(0) saturate(100%)}
+.logo:hover .logo-img{opacity:.75}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.02em;color:var(--txt2);transition:color .2s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:-1px;left:0;width:0;height:1.5px;background:var(--blue);border-radius:2px;transition:width .28s var(--e1)}
+.nav-links a:hover,.nav-links a.active{color:var(--txt)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:.6rem}
+.theme-btn{width:34px;height:34px;border-radius:50%;background:var(--surf);border:1.5px solid var(--bdr2);display:grid;place-items:center;color:var(--txt2);transition:all .2s;cursor:none;flex-shrink:0}
+.theme-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--bdim);transform:rotate(22deg)}
+.t-moon{display:flex}.t-sun{display:none}
+[data-theme="light"] .t-moon{display:none}[data-theme="light"] .t-sun{display:flex}
+.nav-cta{padding:.58rem 1.38rem;background:var(--blue);color:#fff!important;border-radius:999px;font-family:'Syne',sans-serif;font-weight:700;font-size:.81rem;transition:transform .2s,box-shadow .2s;flex-shrink:0}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--bglow)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:6px;cursor:pointer;flex-shrink:0;width:36px;height:36px;align-items:center;justify-content:center;background:transparent;border:none}
+.hamburger span{display:block;height:2px;width:22px;background:var(--txt);border-radius:2px;transition:transform .3s,opacity .3s,width .3s}
+.hamburger span:nth-child(2){width:16px}
+.mob{
+  position:fixed;
+  /* Start just below nav so nav bar stays visible and close btn is reachable */
+  top:0;left:0;right:0;bottom:0;
+  z-index:1001;              /* above nav (1000) */
+  background:var(--bg);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:1.75rem;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s;
+}
+.mob.open{opacity:1;pointer-events:all}
+/* Simple close × top-right, no duplicate header */
+.mob-x{
+  position:absolute;
+  top:1.1rem;right:1.1rem;
+  width:42px;height:42px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.25rem;
+  color:var(--txt2);cursor:pointer;
+  border-radius:50%;
+  background:var(--surf2);
+  border:1.5px solid var(--bdr2);
+  transition:color .2s,background .2s;
+  -webkit-tap-highlight-color:transparent;
+  flex-shrink:0;
+  z-index:2;
+}
+.mob-x:hover,.mob-x:active{color:var(--txt);background:var(--surf)}
+/* Theme toggle inside overlay — top-left */
+.mob-theme-wrap{
+  position:absolute;
+  top:1.1rem;left:1.1rem;
+  z-index:2;
+}
+.mob a:not(.btn){
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.9rem,8vw,3.25rem);
+  font-weight:700;color:var(--txt2);
+  transition:color .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.mob a:not(.btn):hover,.mob a:not(.btn):active{color:var(--txt)}
+
+/* PAGES */
+.page{display:none;padding-top:var(--navh)}
+.page.active{display:block}
+
+/* ═══ HERO ═══ */
+#hero{min-height:calc(100svh - var(--navh));position:relative;overflow:hidden;display:grid;align-items:center}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 60% 55% at 72% 58%,rgba(4,96,217,.12) 0%,transparent 65%),radial-gradient(ellipse 40% 55% at 8% 22%,rgba(4,50,140,.14) 0%,transparent 65%),var(--bg);transition:background .3s}
+[data-theme="light"] .hero-bg{background:radial-gradient(ellipse 60% 55% at 72% 58%,rgba(4,96,217,.07) 0%,transparent 65%),#f0f4fb}
+.hero-inner{position:relative;z-index:2;padding-block:clamp(3rem,7vw,5rem)}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(2rem,5vw,5rem)}
+.eyebrow{display:flex;align-items:center;gap:.6rem;margin-bottom:1.35rem;animation:fadeUp .6s var(--e1) .1s both}
+.eyebrow-line{width:22px;height:1.5px;background:var(--blue)}
+.eyebrow span{font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--blue)}
+.hero-h1{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,5.5vw,5.8rem);font-weight:800;line-height:.93;letter-spacing:-.026em;animation:fadeUp .6s var(--e1) .2s both}
+.hero-h1 em{font-style:italic;color:var(--blue)}
+.hero-sub{font-size:clamp(.92rem,1.45vw,1rem);color:var(--txt2);max-width:42ch;line-height:1.76;margin-top:1.35rem;animation:fadeUp .6s var(--e1) .35s both}
+.hero-btns{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.8rem;animation:fadeUp .6s var(--e1) .48s both}
+.hero-metrics{display:flex;flex-wrap:wrap;gap:clamp(1.2rem,3vw,2.5rem);margin-top:2.2rem;animation:fadeUp .6s var(--e1) .6s both}
+.m-num{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.65rem,2.8vw,2.3rem);line-height:1}
+.m-lbl{font-size:.64rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-top:.25rem}
+.hero-vis{position:relative;display:flex;align-items:center;justify-content:center;min-height:clamp(360px,50vw,580px);animation:fadeUp .6s var(--e1) .25s both}
+.hero-glow{position:absolute;width:50%;height:50%;background:radial-gradient(circle,var(--bglow) 0%,transparent 70%);border-radius:50%;animation:pulse 4s ease-in-out infinite}
+/* NO shadow on bottles */
+.hero-bottle{position:relative;z-index:1;width:clamp(180px,26vw,300px);filter:none!important;animation:float 6s ease-in-out infinite}
+.chip{position:absolute;z-index:2;background:var(--surf);border:1px solid var(--bdr2);border-radius:.85rem;padding:.7rem 1rem;backdrop-filter:blur(10px)}
+.chip-val{font-family:'Syne',sans-serif;font-weight:800;font-size:.93rem;color:var(--txt)}
+.chip-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);font-weight:600;margin-top:.15rem}
+.c1{bottom:18%;left:-4%;animation:fadeUp .6s var(--e1) .9s both}
+.c2{top:22%;right:-6%;animation:fadeUp .6s var(--e1) 1s both}
+.c3{bottom:32%;right:-8%;animation:fadeUp .6s var(--e1) 1.1s both}
+.scroll-hint{position:absolute;bottom:1.75rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;z-index:2;animation:fadeIn 1s 1.4s both}
+.scroll-hint span{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--txt3)}
+.scroll-bar{width:1px;height:26px;background:linear-gradient(to bottom,var(--blue),transparent);animation:shrinkBar 2s ease-in-out infinite}
+
+/* MARQUEE */
+.marquee{overflow:hidden;background:var(--blue);padding:.58rem 0}
+.mtrack{display:flex;white-space:nowrap;animation:marqueeAnim 22s linear infinite}
+.mtrack span{font-family:'Syne',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff;padding:0 1.75rem;opacity:.88}
+.msep{color:rgba(255,255,255,.35)!important}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,7rem);align-items:center}
+.about-img-wrap{position:relative;border-radius:var(--r2);overflow:hidden}
+.about-img-wrap img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center top;display:block;border-radius:var(--r2)}
+.about-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 52%,rgba(7,9,15,.9) 100%);border-radius:var(--r2);pointer-events:none}
+[data-theme="light"] .about-img-wrap::after{background:linear-gradient(to bottom,transparent 52%,rgba(240,244,251,.9) 100%)}
+.about-stats{position:absolute;bottom:0;left:0;right:0;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);padding:1.5rem}
+.astat{text-align:center;border-right:1px solid rgba(255,255,255,.12);padding-inline:.5rem}
+.astat:last-child{border-right:none}
+.astat-n{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,2.2vw,1.9rem);font-weight:800;color:#fff!important;line-height:1}
+.astat-l{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55)!important;margin-top:.3rem}
+.about-feats{display:grid;gap:0;margin-top:2rem}
+.afeat{display:flex;align-items:flex-start;gap:.9rem;padding:1rem 0;border-top:1px solid var(--bdr)}
+.afeat:last-child{border-bottom:1px solid var(--bdr)}
+.afeat-ico{width:38px;height:38px;flex-shrink:0;border-radius:.65rem;background:var(--bdim);border:1px solid rgba(4,96,217,.2);display:grid;place-items:center;font-size:.95rem}
+.afeat-t{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:.2rem;color:var(--txt)}
+.afeat-d{font-size:.82rem;color:var(--txt2);line-height:1.6}
+
+/* FEATURED */
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center}
+.feat-vis{position:relative;display:flex;align-items:center;justify-content:center;min-height:460px}
+.feat-ring{position:absolute;width:80%;height:80%;border-radius:50%;border:1px solid rgba(4,96,217,.1);animation:spin 28s linear infinite}
+.feat-ring2{position:absolute;width:60%;height:60%;border-radius:50%;border:1px dashed rgba(4,96,217,.06);animation:spin 18s linear infinite reverse}
+.feat-glow{position:absolute;width:50%;height:50%;background:radial-gradient(circle,var(--bglow) 0%,transparent 70%);border-radius:50%;animation:pulse 5s ease-in-out infinite}
+/* NO shadow on featured bottle */
+#featImg{position:relative;z-index:1;width:clamp(150px,20vw,250px);filter:none!important;transition:opacity .32s;animation:float 7s ease-in-out infinite}
+.clr-btns{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.5rem}
+.clr-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.4rem .9rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:600;border:1.5px solid var(--bdr2);color:var(--txt2);background:transparent;cursor:none;transition:all .2s}
+.clr-btn:hover{border-color:var(--blue);color:var(--blue);background:var(--bdim)}
+.clr-btn.active{border-color:var(--blue);background:var(--blue);color:#fff!important}
+.clr-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.spec-list{display:grid;gap:.5rem;margin-top:1.75rem}
+.spec-row{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:.7rem;transition:border-color .2s,background .2s}
+.spec-row:hover{border-color:rgba(4,96,217,.25);background:var(--bdim)}
+.spec-k{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--txt3)}
+.spec-v{font-family:'Syne',sans-serif;font-weight:700;font-size:.84rem;color:var(--txt)}
+
+/* PREVIEW CARDS */
+.prev-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;margin-top:2.5rem}
+.pcard{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r2);overflow:hidden;transition:transform .3s var(--e1),box-shadow .3s,border-color .3s;cursor:none;display:flex;flex-direction:column}
+.pcard:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(0,0,0,.22);border-color:rgba(4,96,217,.2)}
+[data-theme="light"] .pcard:hover{box-shadow:0 20px 44px rgba(0,0,0,.09)}
+.pthumb{height:185px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--surf2)}
+.pthumb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 60% 45%,var(--bdim) 0%,transparent 70%)}
+/* NO shadows on preview images */
+.pthumb img{height:145px;width:auto;object-fit:contain;filter:none!important;transition:transform .4s var(--e1);position:relative;z-index:1}
+.pcard:hover .pthumb img{transform:scale(1.06) translateY(-5px)}
+.pbadge{position:absolute;top:.75rem;right:.75rem;background:var(--blue);color:#fff!important;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;z-index:2}
+.pbody{padding:1.2rem;flex:1;display:flex;flex-direction:column}
+.psku{font-size:.62rem;color:var(--txt3);font-weight:600;letter-spacing:.09em;text-transform:uppercase;margin-bottom:.3rem}
+.pname{font-family:'Syne',sans-serif;font-weight:800;font-size:.94rem;line-height:1.2;color:var(--txt);margin-bottom:.28rem}
+.psub{font-size:.77rem;color:var(--txt2);line-height:1.5;margin-bottom:.9rem}
+.pfoot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--bdr);padding-top:.85rem;margin-top:auto;gap:.5rem;flex-wrap:wrap}
+.ptags{display:flex;gap:.38rem;flex-wrap:wrap}
+.ptag{background:var(--surf2);border:1px solid var(--bdr);padding:.18rem .48rem;border-radius:999px;font-size:.62rem;font-weight:600;color:var(--txt2)}
+
+/* CUSTOMISATION */
+.custom-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center}
+.cpills{display:grid;gap:.6rem;margin-top:1.75rem}
+.cpill{display:flex;align-items:center;gap:.9rem;padding:.9rem 1.1rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:.8rem;cursor:none;transition:all .22s var(--e1)}
+.cpill:hover,.cpill.active{background:var(--bdim);border-color:rgba(4,96,217,.3);transform:translateX(4px)}
+.cpill-dot{width:7px;height:7px;border-radius:50%;background:var(--txt3);flex-shrink:0;transition:background .2s}
+.cpill:hover .cpill-dot,.cpill.active .cpill-dot{background:var(--blue)}
+.cpill-t{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem;color:var(--txt);margin-bottom:.15rem}
+.cpill-d{font-size:.76rem;color:var(--txt2);line-height:1.4}
+.cpanel{background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r2);padding:2.25rem;text-align:center;transition:opacity .28s,transform .28s}
+.cpi{font-size:2.5rem;margin-bottom:.9rem}
+.cpt{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--txt);margin-bottom:.6rem}
+.cpd{font-size:.87rem;color:var(--txt2);line-height:1.68}
+
+/* STATS */
+.stats-band{padding-block:clamp(2.5rem,5vw,4rem);background:var(--surf2);border-block:1px solid var(--bdr)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1.5rem;text-align:center}
+.sn{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;background:linear-gradient(135deg,var(--txt),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.sl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-top:.35rem}
+
+/* REVIEWS */
+.rev-track{display:flex;gap:.9rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.5rem;margin-top:2.5rem;scroll-snap-type:x mandatory}
+.rev-track::-webkit-scrollbar{display:none}
+.rcard{flex-shrink:0;width:clamp(260px,33vw,310px);background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r2);padding:1.5rem;scroll-snap-align:start;transition:border-color .25s}
+.rcard:hover{border-color:rgba(4,96,217,.22)}
+.rstar{color:var(--blue);font-size:.84rem}
+.rprod{display:inline-block;margin:.65rem 0 .7rem;background:var(--bdim);border:1px solid rgba(4,96,217,.2);padding:.18rem .6rem;border-radius:999px;font-size:.63rem;font-weight:700;color:var(--blue);font-family:'Syne',sans-serif}
+.rtxt{font-size:.85rem;color:var(--txt2);line-height:1.65;font-style:italic;margin-bottom:1.1rem}
+.rusr{display:flex;align-items:center;gap:.65rem}
+.ravt{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--blue),#0340a0);display:grid;place-items:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.84rem;color:#fff;flex-shrink:0}
+.rname{font-family:'Syne',sans-serif;font-weight:700;font-size:.83rem;color:var(--txt)}
+.rrole{font-size:.7rem;color:var(--txt3)}
+
+/* CTA BAND */
+.cta-band{border-radius:var(--r2);padding:clamp(2rem,4vw,3.5rem);display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap;background:linear-gradient(135deg,var(--surf2),var(--surf));border:1px solid rgba(4,96,217,.15);position:relative;overflow:hidden;margin-block:clamp(2.5rem,5vw,4rem)}
+.cta-band::before{content:'';position:absolute;top:-50%;right:-10%;width:340px;height:340px;background:radial-gradient(circle,var(--bdim) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.cta-t{font-family:'Syne',sans-serif;font-size:clamp(1.3rem,2.5vw,2rem);font-weight:800;color:var(--txt);max-width:30ch;line-height:1.2;position:relative}
+.cta-t em{font-style:italic;color:var(--blue)}
+.cta-acts{display:flex;gap:.7rem;flex-wrap:wrap;flex-shrink:0;position:relative}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:start}
+.cform{display:grid;gap:.72rem}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.72rem}
+.cf{background:var(--surf2);border:1.5px solid var(--bdr);border-radius:.8rem;padding:.86rem 1.1rem;color:var(--txt);font-size:.87rem;outline:none;width:100%;-webkit-appearance:none;appearance:none;transition:border-color .22s,background .22s}
+.cf::placeholder{color:var(--txt3)}
+.cf:focus{border-color:rgba(4,96,217,.45);background:var(--surf)}
+textarea.cf{resize:vertical;min-height:108px}
+.ci-list{display:grid;gap:1rem}
+.ci{display:flex;gap:.9rem;padding:1.1rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:.9rem}
+.ci-ico{width:38px;height:38px;flex-shrink:0;background:var(--bdim);border-radius:.6rem;display:grid;place-items:center;font-size:1rem}
+.ci-lbl{font-size:.64rem;text-transform:uppercase;letter-spacing:.09em;color:var(--txt3);font-weight:700;margin-bottom:.28rem}
+.ci-val{font-family:'Syne',sans-serif;font-weight:700;font-size:.87rem;color:var(--txt)}
+.ci-val a{color:inherit;transition:color .2s}
+.ci-val a:hover{color:var(--blue)}
+
+/* PRODUCTS PAGE */
+.ph{padding-block:clamp(3rem,6vw,5rem);background:var(--surf);border-bottom:1px solid var(--bdr);text-align:center;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:480px;height:480px;background:radial-gradient(circle,var(--bdim) 0%,transparent 65%);border-radius:50%;pointer-events:none}
+.ph h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:800;letter-spacing:-.03em;position:relative;z-index:1;color:var(--txt)}
+.ph h1 em{font-style:italic;font-family:'Playfair Display',serif;color:var(--blue)}
+.ph p{font-size:clamp(.88rem,1.4vw,1rem);color:var(--txt2);max-width:52ch;margin-inline:auto;margin-top:.8rem;position:relative;z-index:1;line-height:1.72}
+.frow-btns{display:flex;gap:.55rem;justify-content:center;flex-wrap:wrap;margin-top:1.75rem;position:relative;z-index:1}
+.fbtn{padding:.44rem 1.1rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;border:1.5px solid var(--bdr2);color:var(--txt2);cursor:none;transition:all .2s;background:transparent}
+.fbtn:hover,.fbtn.active{background:var(--blue);border-color:var(--blue);color:#fff!important}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;padding-block:clamp(3rem,6vw,5rem)}
+.prodcard{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r2);overflow:hidden;display:flex;flex-direction:column;transition:transform .3s var(--e1),box-shadow .3s,border-color .3s;cursor:none}
+.prodcard:hover{transform:translateY(-8px);box-shadow:0 28px 54px rgba(0,0,0,.2);border-color:rgba(4,96,217,.2)}
+[data-theme="light"] .prodcard:hover{box-shadow:0 28px 54px rgba(0,0,0,.09)}
+.prodthumb{height:clamp(215px,24vw,280px);background:var(--surf2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.prodthumb::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,var(--surf) 0%,transparent 42%);pointer-events:none;z-index:1}
+.prodthumb::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 55% 45%,var(--bdim) 0%,transparent 70%)}
+/* NO shadows on product images */
+.prodthumb img{height:clamp(130px,17vw,195px);width:auto;object-fit:contain;filter:none!important;transition:transform .45s var(--e1);position:relative;z-index:2}
+.prodcard:hover .prodthumb img{transform:scale(1.06) translateY(-7px)}
+.pbrow{position:absolute;top:.9rem;left:.9rem;z-index:3;display:flex;gap:.4rem}
+.psku2{position:absolute;bottom:.9rem;left:.9rem;z-index:3;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4)}
+.prodbody{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+.prodname{font-family:'Syne',sans-serif;font-weight:800;font-size:1.04rem;line-height:1.2;color:var(--txt);margin-bottom:.38rem}
+.prodtag{font-size:.81rem;color:var(--txt2);line-height:1.55;margin-bottom:1.1rem}
+.pspecs{display:grid;grid-template-columns:1fr 1fr;gap:.38rem;margin-bottom:1rem}
+.psi{background:var(--surf2);border:1px solid var(--bdr);border-radius:.55rem;padding:.52rem .72rem}
+.psk{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txt3);margin-bottom:.16rem}
+.psv{font-family:'Syne',sans-serif;font-size:.77rem;font-weight:700;color:var(--txt)}
+.pfeats{display:grid;gap:.35rem;margin-bottom:1.1rem}
+.pf{display:flex;align-items:flex-start;gap:.5rem;font-size:.79rem;color:var(--txt2);line-height:1.45}
+.pf::before{content:'✓';color:var(--blue);font-weight:900;font-size:.75rem;flex-shrink:0;margin-top:.05rem}
+.prodfoot{display:flex;align-items:center;justify-content:flex-end;border-top:1px solid var(--bdr);padding-top:1.1rem;margin-top:auto}
+.add-slot{background:transparent;border:2px dashed var(--bdr);border-radius:var(--r2);min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;cursor:none;transition:border-color .2s,background .2s}
+.add-slot:hover{border-color:rgba(4,96,217,.22);background:var(--bdim)}
+.add-ico{width:44px;height:44px;border-radius:50%;background:var(--bdim);border:1px solid rgba(4,96,217,.2);display:grid;place-items:center;font-size:1.25rem}
+.print-box{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r2);padding:clamp(1.5rem,3vw,2.5rem);margin-top:3rem}
+.print-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:.9rem;margin-top:1.4rem}
+.pitem{padding:.9rem;background:var(--surf2);border:1px solid var(--bdr);border-radius:.8rem;transition:border-color .2s}
+.pitem:hover{border-color:rgba(4,96,217,.22)}
+.picon{font-size:1.28rem;margin-bottom:.42rem}
+.pitmn{font-family:'Syne',sans-serif;font-weight:700;font-size:.85rem;color:var(--txt);margin-bottom:.22rem}
+.pitmd{font-size:.75rem;color:var(--txt2);line-height:1.5}
+
+/* ═══ OUR STORY PAGE ═══ */
+/* Hero */
+.sh{min-height:90svh;position:relative;display:grid;align-items:center;padding-block:clamp(4rem,8vw,7rem);overflow:hidden}
+.shbg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 55% 60% at 20% 42%,rgba(4,96,217,.1) 0%,transparent 65%),radial-gradient(ellipse 45% 45% at 80% 72%,rgba(4,50,140,.08) 0%,transparent 65%),var(--bg)}
+[data-theme="light"] .shbg{background:radial-gradient(ellipse 55% 60% at 20% 42%,rgba(4,96,217,.06) 0%,transparent 65%),#f0f4fb}
+.sh-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center;position:relative;z-index:1}
+.sh1{font-family:'Playfair Display',serif;font-size:clamp(3rem,5.5vw,5.5rem);font-weight:800;line-height:.95;letter-spacing:-.026em;color:var(--txt);animation:fadeUp .6s var(--e1) .2s both}
+.sh1 em{font-style:italic;color:var(--blue)}
+.sh-tag{font-size:clamp(.95rem,1.8vw,1.15rem);font-style:italic;font-family:'Playfair Display',serif;color:var(--txt2);margin-top:1rem;animation:fadeUp .6s var(--e1) .3s both}
+.sh-lead{font-size:.95rem;color:var(--txt2);line-height:1.78;margin-top:.9rem;animation:fadeUp .6s var(--e1) .4s both}
+.sh-btns{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.75rem;animation:fadeUp .6s var(--e1) .52s both}
+.sh-img{position:relative;border-radius:var(--r2);overflow:hidden;animation:fadeUp .6s var(--e1) .3s both}
+.sh-img img{width:100%;height:clamp(380px,50vw,580px);object-fit:cover;object-position:center top;display:block;border-radius:var(--r2)}
+.sh-caption{position:absolute;bottom:1.25rem;left:1.25rem;right:1.25rem;background:rgba(7,9,15,.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:.75rem;padding:.88rem 1.1rem}
+[data-theme="light"] .sh-caption{background:rgba(255,255,255,.88);border-color:rgba(0,0,0,.1)}
+.sh-caption p{font-family:'Playfair Display',serif;font-size:.84rem;font-style:italic;color:rgba(255,255,255,.82);line-height:1.55}
+[data-theme="light"] .sh-caption p{color:rgba(11,18,32,.72)}
+/* Manifesto */
+.mani{padding-block:clamp(4rem,8vw,7rem);background:var(--surf)}
+.mani-inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:start}
+.qmark{font-family:'Playfair Display',serif;font-size:7rem;line-height:.6;color:var(--blue);opacity:.25;margin-bottom:.75rem}
+.quote blockquote{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2vw,1.6rem);font-style:italic;font-weight:400;line-height:1.55;color:var(--txt)}
+.quote cite{display:block;margin-top:1.1rem;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);font-style:normal}
+.mani-txt{display:grid;gap:1.2rem}
+.mani-txt p{font-size:.95rem;color:var(--txt2);line-height:1.78}
+.mani-txt strong{font-weight:700;color:var(--txt)}
+/* Lifestyle */
+.life{padding-block:clamp(4rem,8vw,7rem)}
+.life-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;margin-top:3rem}
+.lcard{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r2);padding:clamp(1.5rem,2.5vw,2.2rem);position:relative;overflow:hidden;transition:transform .3s var(--e1),border-color .3s,box-shadow .3s}
+.lcard:hover{transform:translateY(-5px);border-color:rgba(4,96,217,.25);box-shadow:0 18px 40px rgba(0,0,0,.16)}
+[data-theme="light"] .lcard:hover{box-shadow:0 18px 40px rgba(0,0,0,.08)}
+.lcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:0;transition:opacity .3s}
+.lcard:hover::before{opacity:1}
+.lcnum{position:absolute;top:1.2rem;right:1.4rem;font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;color:rgba(4,96,217,.1);line-height:1;transition:color .3s}
+.lcard:hover .lcnum{color:rgba(4,96,217,.18)}
+.lcico{font-size:1.75rem;margin-bottom:1rem}
+.lct{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--txt);margin-bottom:.6rem;line-height:1.2}
+.lcd{font-size:.86rem;color:var(--txt2);line-height:1.72}
+.lctags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.1rem}
+.lctag{background:var(--bdim);border:1px solid rgba(4,96,217,.2);padding:.28rem .75rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;color:var(--blue)}
+/* Story stats */
+.sstats{background:var(--surf2);border-block:1px solid var(--bdr);padding-block:clamp(2.5rem,5vw,4rem)}
+.sstats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center}
+.ssn{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.5vw,3rem);font-weight:800;background:linear-gradient(135deg,var(--txt),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.ssl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-top:.35rem}
+/* Mission */
+.miss{padding-block:clamp(4rem,8vw,7rem)}
+.miss-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center}
+.miss-img{border-radius:var(--r2);overflow:hidden}
+.miss-img img{width:100%;height:clamp(260px,34vw,400px);object-fit:cover;border-radius:var(--r2)}
+.stags{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:1.4rem}
+.stag{background:var(--bdim);border:1px solid rgba(4,96,217,.2);padding:.3rem .8rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;color:var(--blue)}
+/* Pledge */
+.pledge{padding-block:clamp(4rem,8vw,7rem);background:var(--surf);text-align:center}
+.pledge-inner{max-width:700px;margin-inline:auto}
+.pledge-q{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.5vw,2rem);font-style:italic;font-weight:700;line-height:1.45;color:var(--txt);margin-bottom:1.5rem}
+.pledge-q em{color:var(--blue)}
+
+/* FOOTER */
+footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.75rem 1.75rem}
+.ftop{display:grid;grid-template-columns:1.5fr repeat(3,1fr);gap:2.5rem;padding-bottom:2.25rem;border-bottom:1px solid var(--bdr);margin-bottom:1.5rem}
+.fbrand .logo-img{width:96px}
+.fbrand p{font-size:.82rem;color:var(--txt2);line-height:1.68;max-width:26ch;margin-top:.8rem}
+.fcol h4{font-family:'Syne',sans-serif;font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--txt3);margin-bottom:.9rem}
+.fcol ul{list-style:none;display:grid;gap:.48rem}
+.fcol a{font-size:.82rem;color:var(--txt2);transition:color .2s}
+.fcol a:hover{color:var(--blue)}
+.fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.fcopy{font-size:.74rem;color:var(--txt3)}
+.socials{display:flex;gap:.52rem}
+.soc{width:32px;height:32px;border-radius:50%;background:var(--surf);border:1px solid var(--bdr);display:grid;place-items:center;font-size:.8rem;color:var(--txt2);transition:all .2s}
+.soc:hover{background:var(--bdim);border-color:var(--blue);color:var(--blue);transform:translateY(-2px)}
+
+/* KEYFRAMES */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.15);opacity:1}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes marqueeAnim{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes shrinkBar{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-grid,.about-grid,.feat-grid,.custom-grid,.contact-grid,.sh-grid,.mani-inner,.miss-grid{grid-template-columns:1fr}
+  .hero-vis,.feat-vis{display:none}
+  .life-grid{grid-template-columns:1fr}
+  .sstats-row{grid-template-columns:repeat(2,1fr)}
+  .ftop{grid-template-columns:1fr 1fr}
+  .prev-grid{grid-template-columns:repeat(2,1fr)}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:720px){
+  .nav-links,.nav-right .nav-cta{display:none}
+  .nav-right .theme-btn{display:none}
+  .hamburger{display:flex}
+  .prev-grid,.pgrid{grid-template-columns:1fr}
+  .ftop{grid-template-columns:1fr}
+  .fbot{flex-direction:column;align-items:center;text-align:center}
+  .frow{grid-template-columns:1fr}
+  .cta-band{flex-direction:column;text-align:center}
+  .cta-acts{justify-content:center;width:100%}
+  body{cursor:auto}
+  #cur,#curR{display:none}
+  .hero-btns,.sh-btns{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){
+  .stats-row,.sstats-row{grid-template-columns:repeat(2,1fr)}
+  .pspecs{grid-template-columns:1fr}
+  .print-grid{grid-template-columns:repeat(2,1fr)}
+  .sh1{font-size:2.6rem}
+}
+@media(max-width:360px){
+  .hero-h1{font-size:2.8rem}
+  .sh1{font-size:2.2rem}
+}
+
+
+/* ═══ GALLERY PAGE ═══ */
+.gal-hero{padding-block:clamp(3.5rem,7vw,5.5rem);text-align:center;position:relative;overflow:hidden;background:var(--surf)}
+.gal-hero::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,var(--bdim) 0%,transparent 70%);pointer-events:none}
+.gal-hero-inner{position:relative;z-index:1}
+.gal-h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4.5rem);font-weight:800;line-height:.95;letter-spacing:-.025em;color:var(--txt);margin:.5rem 0 1rem}
+.gal-h1 em{font-style:italic;color:var(--blue)}
+.gal-sub{font-size:clamp(.9rem,1.5vw,1.05rem);color:var(--txt2);max-width:52ch;margin-inline:auto;line-height:1.72}
+.gal-grid-wrap{padding-block:clamp(2.5rem,5vw,4rem)}
+
+/* ── True masonry via CSS columns ──
+   Images render at their natural aspect ratio — zero cropping.
+   Rounded corners preserved on every image. */
+.gal-grid{
+  column-count:4;
+  column-gap:10px;
+}
+.gal-item{
+  break-inside:avoid;
+  margin-bottom:10px;
+  border-radius:var(--r2);
+  overflow:hidden;
+  position:relative;
+  cursor:none;
+  background:var(--surf2);
+  display:block;
+  /* Subtle lift on hover */
+  transition:transform .3s var(--e1),box-shadow .3s;
+}
+.gal-item:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.2)}
+/* Image fills full width of its column, height is 100% natural */
+.gal-item img{
+  display:block;
+  width:100%;
+  height:auto;                 /* natural ratio — NO cropping */
+  border-radius:var(--r2);
+  transition:transform .5s var(--e1),filter .4s;
+  vertical-align:middle;
+}
+.gal-item:hover img{transform:scale(1.04)}
+
+/* Hover label overlay — fades in over bottom of image */
+.gal-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(4,96,217,.72) 0%,transparent 52%);
+  opacity:0;
+  transition:opacity .32s var(--e1);
+  border-radius:var(--r2);
+  display:flex;align-items:flex-end;
+  padding:1rem 1.1rem;
+  pointer-events:none;
+}
+.gal-item:hover .gal-overlay{opacity:1}
+.gal-overlay-txt{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:.78rem;
+  color:#fff;letter-spacing:.04em;
+  transform:translateY(6px);
+  transition:transform .32s var(--e1);
+}
+.gal-item:hover .gal-overlay-txt{transform:translateY(0)}
+
+/* Gallery CTA */
+.gal-cta{text-align:center;padding-block:clamp(2.5rem,5vw,4rem);background:var(--surf);border-top:1px solid var(--bdr)}
+.gal-cta p{font-size:.95rem;color:var(--txt2);margin-bottom:1.5rem;max-width:48ch;margin-inline:auto;line-height:1.72}
+
+/* Responsive */
+@media(max-width:960px){.gal-grid{column-count:3}}
+@media(max-width:600px){.gal-grid{column-count:2;column-gap:7px}.gal-item{margin-bottom:7px}.gal-hero{padding-block:2.5rem 2rem}}
+@media(max-width:360px){.gal-grid{column-count:2}}
+
+</style>
+</head>
+<body>
+
+<div id="cur" aria-hidden="true"></div>
+<div id="curR" aria-hidden="true"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo" data-page="home" aria-label="SIPPLE Home">
+      <img class="logo-img" src="images/sipple.svg" alt="SIPPLE" loading="eager">
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" id="nav-home" class="active" data-page="home">Home</a></li>
+      <li><a href="/products" id="nav-products" data-page="products">Products</a></li>
+      <li><a href="/our-story" id="nav-story" data-page="story">Our Story</a></li>
+      <li><a href="/gallery" id="nav-gallery" data-page="gallery">Gallery</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+        <span class="t-moon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg></span>
+        <span class="t-sun"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+      </button>
+      <a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="nav-cta">Contact Us</a>
+    </div>
+    <button class="hamburger" id="hamBtn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="mob" id="mobMenu" role="dialog" aria-modal="true" aria-label="Navigation">
+  <!-- Theme toggle top-left -->
+  <div class="mob-theme-wrap">
+    <button class="theme-btn" id="mobThemeBtn" aria-label="Toggle theme" style="cursor:pointer">
+      <span class="t-moon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg></span>
+      <span class="t-sun"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></span>
+    </button>
+  </div>
+  <!-- Close button top-right -->
+  <button class="mob-x" id="mobX" aria-label="Close menu">✕</button>
+  <!-- Nav links -->
+  <a href="/" data-page="home">Home</a>
+  <a href="/products" data-page="products">Products</a>
+  <a href="/our-story" data-page="story">Our Story</a>
+  <a href="/gallery" data-page="gallery">Gallery</a>
+  <a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="btn btn-wa btn-sm" style="margin-top:.5rem">Contact Us</a>
+</div>
+
+<!-- ══ HOME PAGE ══ -->
+<div id="page-home" class="page active">
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span><span>Smart Drinkware</span></div>
+            <h1 class="hero-h1">Hydration<br><em>Made Smarter.</em></h1>
+            <p class="hero-sub">Premium smart drinkware built for work, gym, travel, and modern lifestyles. Where utility meets innovation.</p>
+            <div class="hero-btns">
+              <a href="/products" class="btn btn-p" data-page="products">Shop Collection →</a>
+              <a href="/our-story" class="btn btn-o" data-page="story">Our Story</a>
+            </div>
+            <div class="hero-metrics">
+              <div><div class="m-num">4</div><div class="m-lbl">Smart Products</div></div>
+              <div><div class="m-num">700ml</div><div class="m-lbl">Max Capacity</div></div>
+              <div><div class="m-num">7000</div><div class="m-lbl">RPM Motor</div></div>
+            </div>
+          </div>
+          <div class="hero-vis" aria-hidden="true">
+            <div class="hero-glow"></div>
+            <img class="hero-bottle" src="images/hero-bottle.png" alt="" width="300" height="560" loading="eager">
+            <div class="chip c1"><div class="chip-val">700ml</div><div class="chip-lbl">Stainless Steel</div></div>
+            <div class="chip c2"><div class="chip-val">🧲 MagSafe</div><div class="chip-lbl">Compatible</div></div>
+            <div class="chip c3"><div class="chip-val">4 Colours</div><div class="chip-lbl">Available</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint" aria-hidden="true"><span>Scroll</span><div class="scroll-bar"></div></div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="mtrack">
+      <span>Hands-Free</span><span class="msep">·</span><span>Effortless Mixing</span><span class="msep">·</span><span>Smart Hydration</span><span class="msep">·</span><span>MagSafe Compatible</span><span class="msep">·</span><span>7000 RPM Motor</span><span class="msep">·</span><span>Electric Shaker</span><span class="msep">·</span><span>Temperature Display</span><span class="msep">·</span><span>Type-C Charging</span><span class="msep">·</span><span>Hands-Free</span><span class="msep">·</span><span>Effortless Mixing</span><span class="msep">·</span><span>Smart Hydration</span><span class="msep">·</span><span>MagSafe Compatible</span><span class="msep">·</span><span>7000 RPM Motor</span><span class="msep">·</span><span>Electric Shaker</span><span class="msep">·</span><span>Temperature Display</span><span class="msep">·</span><span>Type-C Charging</span><span class="msep">·</span>
+    </div>
+  </div>
+
+  <section id="about-section" class="section" aria-labelledby="abt-t">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-wrap reveal">
+          <img src="images/about-main.jpg" alt="Person holding SIPPLE bottle" width="560" height="700" loading="lazy">
+          <div class="about-stats">
+            <div class="astat"><div class="astat-n">4</div><div class="astat-l">Products</div></div>
+            <div class="astat"><div class="astat-n">700ml</div><div class="astat-l">Capacity</div></div>
+            <div class="astat"><div class="astat-n">7000</div><div class="astat-l">RPM</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="reveal"><span class="label">Our Story</span><h2 class="sec-title" id="abt-t">Rethinking how<br>the world hydrates.</h2><p class="sec-body">SIPPLE was created to rethink something simple: the way we drink water every day. Hydration is constant — it moves with us from desks to gyms, commutes to kitchens. SIPPLE exists to close that gap.</p></div>
+          <div class="about-feats">
+            <div class="afeat reveal d1"><div class="afeat-ico">🔩</div><div><div class="afeat-t">Built for Modern Routines</div><div class="afeat-d">Smart drinkware that integrates seamlessly — magnetic mounts to electric mixers.</div></div></div>
+            <div class="afeat reveal d2"><div class="afeat-ico">⚡</div><div><div class="afeat-t">Innovation with Purpose</div><div class="afeat-d">Every feature solves a real problem. 7000 RPM motors. 24h insulation. Type-C charging.</div></div></div>
+            <div class="afeat reveal d3"><div class="afeat-ico">🌍</div><div><div class="afeat-t">One Product. Every Place.</div><div class="afeat-d">Desk. Gym. Airport. Home. Consistent performance, zero compromise.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="reveal" style="margin-bottom:2.5rem"><span class="label">Featured Product</span><h2 class="sec-title">SPL+ Magnetic Insulated Bottle</h2><p class="sec-body">MagSafe-compatible, vacuum-insulated, 4 colour variants.</p></div>
+      <div class="feat-grid">
+        <div class="feat-vis reveal" aria-hidden="true">
+          <div class="feat-glow"></div><div class="feat-ring"></div><div class="feat-ring2"></div>
+          <img id="featImg" src="images/spl-chalk.png" alt="SPL+ Chalk White" width="250" height="500" loading="lazy">
+        </div>
+        <div>
+          <div class="reveal" style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.3rem">
+            <span style="background:var(--blue);color:#fff;padding:.22rem .65rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.66rem;font-weight:700">NEW</span>
+            <span style="background:var(--surf2);border:1px solid var(--bdr);padding:.22rem .65rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.66rem;font-weight:700;color:var(--txt2)">SPL+ · 11651</span>
+          </div>
+          <h3 class="reveal" style="font-family:'Syne',sans-serif;font-size:clamp(1.5rem,2.5vw,2rem);font-weight:800;color:var(--txt);line-height:1.1;margin-bottom:.7rem">Magnetic Compatible<br>Insulated Water Bottle</h3>
+          <p class="reveal" style="font-size:.88rem;color:var(--txt2);line-height:1.75;margin-bottom:1.4rem">Built-in magnetic alignment system holds smartphones for hands-free viewing. Double-wall vacuum insulation with soft-touch finish.</p>
+          <div class="spec-list reveal">
+            <div class="spec-row"><span class="spec-k">Capacity</span><span class="spec-v">700 ml</span></div>
+            <div class="spec-row"><span class="spec-k">Material</span><span class="spec-v">Stainless Steel</span></div>
+            <div class="spec-row"><span class="spec-k">Dimensions</span><span class="spec-v">200 × 60 × 100 mm</span></div>
+            <div class="spec-row"><span class="spec-k">Print Area</span><span class="spec-v">85 × 32 mm</span></div>
+            <div class="spec-row"><span class="spec-k">Printing</span><span class="spec-v">UV / DTF / Screen / Engraving</span></div>
+          </div>
+          <div class="clr-btns reveal" role="group" aria-label="Choose colour">
+            <button class="clr-btn active" data-img="images/spl-chalk.png" data-alt="SPL+ Chalk" aria-pressed="true"><span class="clr-dot" style="background:#d8d0c0;border:1px solid rgba(0,0,0,.12)"></span>Chalk</button>
+            <button class="clr-btn" data-img="images/spl-forest.png" data-alt="SPL+ Forest" aria-pressed="false"><span class="clr-dot" style="background:#3a5a2e"></span>Forest</button>
+            <button class="clr-btn" data-img="images/spl-navy.png" data-alt="SPL+ Navy" aria-pressed="false"><span class="clr-dot" style="background:#1a2a5e"></span>Navy</button>
+            <button class="clr-btn" data-img="images/spl-black.png" data-alt="SPL+ Black" aria-pressed="false"><span class="clr-dot" style="background:#1e1e1e;border:1px solid #555"></span>Black</button>
+          </div>
+          <div style="margin-top:1.5rem" class="reveal"><a href="/products" class="btn btn-p" data-page="products">View All Products →</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:2.5rem">
+        <div><span class="label">Collection</span><h2 class="sec-title">The SIPPLE Range</h2></div>
+        <a href="/products" class="btn btn-o btn-sm" data-page="products">View All</a>
+      </div>
+      <div class="prev-grid">
+        <div class="pcard reveal d1">
+          <div class="pthumb"><img src="images/prev-spl.png" alt="SPL+ Magnetic Bottle" width="300" height="200" loading="lazy"><span class="pbadge">Bestseller</span></div>
+          <div class="pbody"><div class="psku">SPL+ · 11651</div><div class="pname">Magnetic Insulated Water Bottle</div><div class="psub">700ml · Stainless Steel · MagSafe</div><div class="pfoot"><div class="ptags"><span class="ptag">700ml</span><span class="ptag">MagSafe</span><span class="ptag">4 Colors</span></div><a href="/products" class="btn btn-p btn-sm" data-page="products">Details</a></div></div>
+        </div>
+        <div class="pcard reveal d2">
+          <div class="pthumb"><img src="images/prev-primexa.png" alt="Primexa Shaker" width="300" height="200" loading="lazy"><span class="pbadge">New</span></div>
+          <div class="pbody"><div class="psku">Primexa · 11669</div><div class="pname">Portable Electric Shaker 700ml</div><div class="psub">700ml · Type-C · Phone Stand</div><div class="pfoot"><div class="ptags"><span class="ptag">700ml</span><span class="ptag">Type-C</span></div><a href="/products" class="btn btn-p btn-sm" data-page="products">Details</a></div></div>
+        </div>
+        <div class="pcard reveal d3">
+          <div class="pthumb"><img src="images/prev-mixpro.png" alt="Mixpro Shaker" width="300" height="200" loading="lazy"><span class="pbadge">New</span></div>
+          <div class="pbody"><div class="psku">Mixpro · 11670</div><div class="pname">Sports Electric Shaker 450ml</div><div class="psub">450ml · Magnetic Motor</div><div class="pfoot"><div class="ptags"><span class="ptag">450ml</span><span class="ptag">Electric</span></div><a href="/products" class="btn btn-p btn-sm" data-page="products">Details</a></div></div>
+        </div>
+        <div class="pcard reveal d4">
+          <div class="pthumb"><img src="images/prev-mixera.png" alt="Mixera Smart Cup" width="300" height="200" loading="lazy"><span class="pbadge">New</span></div>
+          <div class="pbody"><div class="psku">Mixera · 11671</div><div class="pname">Smart Electric Mixing Cup 400ml</div><div class="psub">400ml · 7000 RPM · Temp Display</div><div class="pfoot"><div class="ptags"><span class="ptag">400ml</span><span class="ptag">7000 RPM</span></div><a href="/products" class="btn btn-p btn-sm" data-page="products">Details</a></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="custom-grid">
+        <div>
+          <div class="reveal"><span class="label">Custom Branding</span><h2 class="sec-title">Your Logo.<br>Our Drinkware.</h2><p class="sec-body">Every SIPPLE product available for custom branding. Corporate gifts, merchandise, wholesale. Min. 50 units per design.</p></div>
+          <div class="cpills reveal">
+            <div class="cpill active" data-cv="uv"><div class="cpill-dot"></div><div><div class="cpill-t">UV Printing</div><div class="cpill-d">Full-colour photo-quality prints.</div></div></div>
+            <div class="cpill" data-cv="dtf"><div class="cpill-dot"></div><div><div class="cpill-t">DTF / Screen Printing</div><div class="cpill-d">Durable, long-lasting colour transfers.</div></div></div>
+            <div class="cpill" data-cv="engrave"><div class="cpill-dot"></div><div><div class="cpill-t">Laser Engraving</div><div class="cpill-d">Permanent premium personalisation.</div></div></div>
+            <div class="cpill" data-cv="rotate"><div class="cpill-dot"></div><div><div class="cpill-t">Rotary Printing</div><div class="cpill-d">360° wrap-around brand coverage.</div></div></div>
+          </div>
+        </div>
+        <div class="cpanel reveal" id="cvPanel"><div class="cpi" id="cvIcon">🎨</div><div class="cpt" id="cvTitle">UV Printing</div><div class="cpd" id="cvDesc">Full-colour, photo-quality UV prints on bottle. Print area: 85×32mm. Perfect for complex logos.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-band">
+    <div class="container">
+      <div class="stats-row">
+        <div class="reveal"><div class="sn">700ml</div><div class="sl">Max Capacity</div></div>
+        <div class="reveal d1"><div class="sn">7000</div><div class="sl">RPM Motor</div></div>
+        <div class="reveal d2"><div class="sn">24h</div><div class="sl">Insulation</div></div>
+        <div class="reveal d3"><div class="sn">4</div><div class="sl">Smart Products</div></div>
+      </div>
+    </div>
+  </div>
+
+  <section id="reviews-section" class="section">
+    <div class="container">
+      <div class="reveal" style="margin-bottom:0"><span class="label">Reviews</span><h2 class="sec-title">What People Are Saying</h2></div>
+      <div class="rev-track">
+        <div class="rcard"><div class="rstar">★★★★★</div><div class="rprod">SPL+ · Magnetic Bottle</div><p class="rtxt">"The MagSafe integration is brilliant — I prop my phone on the bottle during meetings. Genuinely the best water bottle I've owned."</p><div class="rusr"><div class="ravt">S</div><div><div class="rname">Sara Al-Mahmoud</div><div class="rrole">Product Designer · Dubai</div></div></div></div>
+        <div class="rcard"><div class="rstar">★★★★★</div><div class="rprod">Primexa · Electric Shaker</div><p class="rtxt">"The Primexa is a gym game-changer. No more manually shaking protein — just press the button. The phone stand I use every single day."</p><div class="rusr"><div class="ravt" style="background:linear-gradient(135deg,#0340a0,#021560)">J</div><div><div class="rname">James Okafor</div><div class="rrole">Personal Trainer · Abu Dhabi</div></div></div></div>
+        <div class="rcard"><div class="rstar">★★★★★</div><div class="rprod">Mixera · Smart Mixing Cup</div><p class="rtxt">"The temperature display tells me exactly when my coffee is ready. 7000 RPM motor — zero clumps, every single time."</p><div class="rusr"><div class="ravt" style="background:linear-gradient(135deg,#1a3a6e,#0a1a40)">L</div><div><div class="rname">Lena Hoffmann</div><div class="rrole">Coffee Enthusiast · Berlin</div></div></div></div>
+        <div class="rcard"><div class="rstar">★★★★★</div><div class="rprod">Mixpro · Sports Shaker</div><p class="rtxt">"Handles matcha to whey protein flawlessly. Sealed lid — I can toss it in my bag without worrying about leaks. Perfect for training."</p><div class="rusr"><div class="ravt" style="background:linear-gradient(135deg,#0a2a5e,#060e30)">R</div><div><div class="rname">Rami Hassan</div><div class="rrole">Fitness Coach · Riyadh</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="cta-band reveal">
+      <div class="cta-t">Ready to upgrade your <em>hydration routine?</em></div>
+      <div class="cta-acts">
+        <a href="/products" class="btn btn-p" data-page="products">Shop All Products</a>
+        <a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="btn btn-wa">Get a Quote</a>
+      </div>
+    </div>
+  </div>
+
+  <section id="contact-section" class="section section-alt">
+    <div class="container">
+      <div class="reveal" style="margin-bottom:3rem"><span class="label">Get in Touch</span><h2 class="sec-title">Let's talk<br>smart hydration.</h2><p class="sec-body">Corporate orders, wholesale, custom branding — we're here.</p></div>
+      <div class="contact-grid">
+        <form class="cform reveal" onsubmit="sendForm(event)" novalidate>
+          <div class="frow">
+            <input class="cf" type="text" placeholder="Your Name" aria-label="Name" required autocomplete="name">
+            <input class="cf" type="email" placeholder="Email Address" aria-label="Email" required autocomplete="email">
+          </div>
+          <input class="cf" type="text" placeholder="Company (optional)" aria-label="Company" autocomplete="organization">
+          <select class="cf" aria-label="Enquiry type"><option value="" disabled selected>Enquiry Type</option><option>Wholesale Order</option><option>Custom Branding</option><option>Product Information</option><option>General Enquiry</option></select>
+          <textarea class="cf" placeholder="Your message…" aria-label="Message" required></textarea>
+          <button type="submit" class="btn btn-p" style="justify-self:start">Send Message →</button>
+        </form>
+        <div class="ci-list reveal d2">
+          <div class="ci"><div class="ci-ico">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection#c1b2a0ada4b2f081aab3aeb2b2ecaeb7a4b3efafa4b5"><span class="__cf_email__" data-cfemail="85f6e4e9e0f6b4c5eef7eaf6f6a8eaf3e0f7abebe0f1">[email&#160;protected]</span></a></div></div></div>
+          <div class="ci"><div class="ci-ico">💬</div><div><div class="ci-lbl">WhatsApp</div><div class="ci-val"><a href="https://wa.me/971527940227" target="_blank" rel="noopener" style="color:var(--green)">+971 52 794 0227</a></div></div></div>
+          <div class="ci"><div class="ci-ico">🎨</div><div><div class="ci-lbl">Custom Branding</div><div class="ci-val">Minimum 50 units per design</div></div></div>
+          <div class="ci"><div class="ci-ico">🚚</div><div><div class="ci-lbl">Shipping</div><div class="ci-val">Worldwide · Free on 100+ orders</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /home -->
+
+<!-- ══ PRODUCTS PAGE ══ -->
+<div id="page-products" class="page">
+  <div class="ph">
+    <div class="container">
+      <p class="reveal" style="position:relative;z-index:1"><span class="label">The Collection</span></p>
+      <h1 class="reveal">Smart Drinkware,<br><em>Built Different.</em></h1>
+      <p class="reveal d1">Four products engineered to remove friction from everyday hydration.</p>
+      <div class="frow-btns reveal d2">
+        <button class="fbtn active" data-filter="all">All Products</button>
+        <button class="fbtn" data-filter="bottle">Bottles</button>
+        <button class="fbtn" data-filter="shaker">Shakers</button>
+        <button class="fbtn" data-filter="cup">Smart Cups</button>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="pgrid">
+      <article class="prodcard" data-cat="bottle">
+        <div class="prodthumb" style="background:linear-gradient(160deg,#0e1828,#080f1e)">
+          <img src="images/product-spl.png" alt="SPL+ Magnetic Insulated Water Bottle" width="400" height="560" loading="lazy">
+          <div class="pbrow"><span style="background:var(--blue);color:#fff;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:700">NEW</span></div>
+          <div class="psku2">SPL+ · 11651</div>
+        </div>
+        <div class="prodbody">
+          <div class="prodname">Magnetic Compatible Insulated Water Bottle</div>
+          <p class="prodtag">Built-in magnetic phone holder for hands-free use at work, gym, or travel.</p>
+          <div class="pspecs"><div class="psi"><div class="psk">Capacity</div><div class="psv">700 ml</div></div><div class="psi"><div class="psk">Material</div><div class="psv">Stainless Steel</div></div><div class="psi"><div class="psk">Dimensions</div><div class="psv">200×60×100mm</div></div><div class="psi"><div class="psk">Print Area</div><div class="psv">85 × 32 mm</div></div></div>
+          <div class="pfeats"><span class="pf">Built-in magnetic phone alignment system</span><span class="pf">Double-wall vacuum insulation</span><span class="pf">Soft-touch anti-slip finish</span><span class="pf">UV / DTF / Screen / Engraving / Rotary</span><span class="pf">Available in 4 colours</span></div>
+          <div class="prodfoot"><a href="https://wa.me/971527940227?text=Hi%2C%20I%27m%20interested%20in%20the%20SPL%2B%20Magnetic%20Bottle" target="_blank" rel="noopener" class="btn btn-wa btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Get a Quote</a></div>
+        </div>
+      </article>
+      <article class="prodcard" data-cat="shaker">
+        <div class="prodthumb" style="background:linear-gradient(160deg,#060c1c,#050915)">
+          <img src="images/product-primexa.png" alt="Primexa Portable Electric Shaker" width="400" height="560" loading="lazy">
+          <div class="pbrow"><span style="background:var(--blue);color:#fff;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:700">NEW</span></div>
+          <div class="psku2">Primexa · 11669</div>
+        </div>
+        <div class="prodbody">
+          <div class="prodname">Portable Electric Shaker Bottle · 700ml</div>
+          <p class="prodtag">Self-stirring bottle with Type-C charging, measurement scales, and MagSafe phone stand.</p>
+          <div class="pspecs"><div class="psi"><div class="psk">Capacity</div><div class="psv">700 ml</div></div><div class="psi"><div class="psk">Charging</div><div class="psv">Type-C</div></div><div class="psi"><div class="psk">Dimensions</div><div class="psv">105×67×260mm</div></div><div class="psi"><div class="psk">Print Area</div><div class="psv">50 × 50 mm</div></div></div>
+          <div class="pfeats"><span class="pf">Foldable ring handle for portability</span><span class="pf">Built-in MagSafe phone stand (H/V)</span><span class="pf">1-touch pop-open lid with slide lock</span><span class="pf">Tritan food-grade body with scales</span><span class="pf">Detachable large-capacity battery base</span></div>
+          <div class="prodfoot"><a href="https://wa.me/971527940227?text=Hi%2C%20I%27m%20interested%20in%20the%20Primexa%20Electric%20Shaker" target="_blank" rel="noopener" class="btn btn-wa btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Get a Quote</a></div>
+        </div>
+      </article>
+      <article class="prodcard" data-cat="shaker">
+        <div class="prodthumb" style="background:linear-gradient(160deg,#0a1020,#060c18)">
+          <img src="images/product-mixpro.png" alt="Mixpro Sports Electric Shaker" width="400" height="560" loading="lazy">
+          <div class="pbrow"><span style="background:var(--blue);color:#fff;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:700">NEW</span></div>
+          <div class="psku2">Mixpro · 11670</div>
+        </div>
+        <div class="prodbody">
+          <div class="prodname">Sports Electric Shaker · 450ml</div>
+          <p class="prodtag">High-speed magnetic motor for clump-free mixing of protein, coffee, matcha and more.</p>
+          <div class="pspecs"><div class="psi"><div class="psk">Capacity</div><div class="psv">450 ml</div></div><div class="psi"><div class="psk">Motor</div><div class="psv">Magnetic</div></div><div class="psi"><div class="psk">Dimensions</div><div class="psv">87×125×147mm</div></div><div class="psi"><div class="psk">Print Area</div><div class="psv">60 × 50 mm</div></div></div>
+          <div class="pfeats"><span class="pf">High-efficiency magnetic motor</span><span class="pf">Fully sealed — leak-proof design</span><span class="pf">Type-C rechargeable base</span><span class="pf">Protein · Coffee · Matcha · Collagen</span><span class="pf">UV / DTF / Screen printing</span></div>
+          <div class="prodfoot"><a href="https://wa.me/971527940227?text=Hi%2C%20I%27m%20interested%20in%20the%20Mixpro%20Sports%20Shaker" target="_blank" rel="noopener" class="btn btn-wa btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Get a Quote</a></div>
+        </div>
+      </article>
+      <article class="prodcard" data-cat="cup">
+        <div class="prodthumb" style="background:linear-gradient(160deg,#0c1118,#080d15)">
+          <img src="images/product-mixera.png" alt="Mixera Smart Electric Mixing Cup" width="400" height="560" loading="lazy">
+          <div class="pbrow"><span style="background:var(--blue);color:#fff;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:700">NEW</span></div>
+          <div class="psku2">Mixera · 11671</div>
+        </div>
+        <div class="prodbody">
+          <div class="prodname">Smart Electric Mixing Cup with Temperature Display</div>
+          <p class="prodtag">400ml smart cup with real-time LCD temperature display and 7000 RPM motor.</p>
+          <div class="pspecs"><div class="psi"><div class="psk">Capacity</div><div class="psv">400 ml</div></div><div class="psi"><div class="psk">Motor</div><div class="psv">7000 RPM</div></div><div class="psi"><div class="psk">Dimensions</div><div class="psv">87×125×147mm</div></div><div class="psi"><div class="psk">Print Area</div><div class="psv">50 × 50 mm</div></div></div>
+          <div class="pfeats"><span class="pf">7000 RPM high-speed magnetic motor</span><span class="pf">Real-time LCD temperature display</span><span class="pf">304 stainless steel interior</span><span class="pf">Coffee · Protein · Matcha · Collagen</span><span class="pf">Perfect for desk and home use</span></div>
+          <div class="prodfoot"><a href="https://wa.me/971527940227?text=Hi%2C%20I%27m%20interested%20in%20the%20Mixera%20Smart%20Cup" target="_blank" rel="noopener" class="btn btn-wa btn-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Get a Quote</a></div>
+        </div>
+      </article>
+      <div class="add-slot"><div class="add-ico">+</div><p style="font-size:.8rem;color:var(--txt3);text-align:center;max-width:18ch;line-height:1.5">More products coming soon</p><a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="btn btn-o btn-sm">Get Notified</a></div>
+    </div>
+    <div class="print-box reveal">
+      <span class="label">Custom Branding</span>
+      <h3 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--txt);margin:.3rem 0 .2rem">Available Printing Methods</h3>
+      <div class="print-grid">
+        <div class="pitem"><div class="picon">🎨</div><div class="pitmn">UV Printing</div><div class="pitmd">Full-colour, photo-quality. Complex logos.</div></div>
+        <div class="pitem"><div class="picon">🖨️</div><div class="pitmn">DTF Printing</div><div class="pitmd">Vibrant heat-transfer for lasting prints.</div></div>
+        <div class="pitem"><div class="picon">📟</div><div class="pitmn">Screen Printing</div><div class="pitmd">Cost-effective for solid-colour at volume.</div></div>
+        <div class="pitem"><div class="picon">✨</div><div class="pitmn">Laser Engraving</div><div class="pitmd">Permanent premium personalisation.</div></div>
+        <div class="pitem"><div class="picon">🔄</div><div class="pitmn">Rotary Printing</div><div class="pitmd">360° full circumference brand exposure.</div></div>
+      </div>
+    </div>
+    <div class="cta-band reveal" style="margin-bottom:3rem">
+      <div class="cta-t">Need a custom quote or <em>bulk order?</em></div>
+      <div class="cta-acts"><a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="btn btn-p">Contact Us →</a><a href="/" class="btn btn-o" data-page="home">Back to Home</a></div>
+    </div>
+  </div>
+</div><!-- /products -->
+
+<!-- ══ OUR STORY PAGE ══ -->
+<div id="page-story" class="page">
+  <section class="sh">
+    <div class="shbg"></div>
+    <div class="container">
+      <div class="sh-grid">
+        <div>
+          <div class="eyebrow" style="animation:fadeUp .6s var(--e1) .1s both"><span class="eyebrow-line"></span><span>Our Story</span></div>
+          <h1 class="sh1">Where utility<br>acquires <em>elegance.</em></h1>
+          <p class="sh-tag">SIPPLE is where utility acquires elegance, and routine becomes ritual.</p>
+          <p class="sh-lead">We were created to rethink something simple — the way we drink water every day. Hydration is constant. It moves with us from desks to gyms, commutes to kitchens. Yet most drinkware has remained static, disconnected from how modern routines actually work. SIPPLE exists to close that gap.</p>
+          <div class="sh-btns">
+            <a href="/products" class="btn btn-p" data-page="products">Explore Products →</a>
+            <a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="btn btn-o">Chat on WhatsApp</a>
+          </div>
+        </div>
+        <div class="sh-img reveal d2">
+          <img src="images/about-main.jpg" alt="Person holding SIPPLE bottle" width="560" height="680" loading="eager">
+          <div class="sh-caption"><p>"SIPPLE transforms the act of drinking into a cultivated ritual. Each form sculpted with precision — balancing thermal performance with visual harmony."</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mani">
+    <div class="container">
+      <div class="mani-inner">
+        <div class="quote reveal"><div class="qmark">"</div><blockquote>Hydration is not a moment. It is a constant — woven through every hour of your day, every rep at the gym, every meeting, every commute, every quiet moment at home.</blockquote><cite>— The SIPPLE Principle</cite></div>
+        <div class="mani-txt reveal d2">
+          <p>Most drinkware treats hydration as an afterthought. <strong>We treat it as infrastructure for modern life.</strong></p>
+          <p>SIPPLE was created to rethink something simple: the way we drink water every day. Hydration is constant. It moves with us from desks to gyms, commutes to kitchens. Yet most drinkware has remained static, disconnected from the way modern routines actually work.</p>
+          <p>SIPPLE exists to close that gap. Not by adding features for complexity — but by solving the real friction points that interrupt hydration across every environment you move through.</p>
+          <p>Each form is sculpted with precision, balancing thermal performance with visual harmony. The result is drinkware that does not interrupt your environment — it elevates it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="life section">
+    <div class="container">
+      <div class="reveal" style="text-align:center;margin-bottom:3rem"><span class="label">Built For Your Life</span><h2 class="sec-title" style="margin-inline:auto">One bottle. Every chapter<br>of your day.</h2><p class="sec-body" style="margin-inline:auto;max-width:56ch;margin-top:.65rem">From the first alarm to the last rep, SIPPLE moves with you — adapting to each environment without ever changing its form.</p></div>
+      <div class="life-grid">
+        <div class="lcard reveal d1"><div class="lcnum">01</div><div class="lcico">💼</div><h3 class="lct">At Your Desk</h3><p class="lcd">Work demands focus. SIPPLE's magnetic phone mount keeps your device within reach without cluttering your workspace. Stay hydrated without breaking your flow. The bottle stands quietly — holding your phone, holding your water, holding your momentum.</p><div class="lctags"><span class="lctag">🧲 MagSafe Mount</span><span class="lctag">24h Cold</span><span class="lctag">Hands-Free</span></div></div>
+        <div class="lcard reveal d2"><div class="lcnum">02</div><div class="lcico">🏋️</div><h3 class="lct">At the Gym</h3><p class="lcd">Every rep counts. Every set demands fuel. SIPPLE's electric shaker delivers clump-free protein, pre-workout, and recovery blends in seconds — no manual shaking, no residue, no compromise. Built to match the intensity of your training.</p><div class="lctags"><span class="lctag">⚡ Electric Mix</span><span class="lctag">700ml</span><span class="lctag">Type-C</span></div></div>
+        <div class="lcard reveal d3"><div class="lcnum">03</div><div class="lcico">✈️</div><h3 class="lct">On the Road</h3><p class="lcd">Travel demands reliability. Double-wall vacuum insulation keeps cold drinks cold for 24 hours and hot drinks hot for 12. Whether you're at an airport, in transit, or checking in — SIPPLE performs without asking you to think about it.</p><div class="lctags"><span class="lctag">🌡️ 24h Insulation</span><span class="lctag">Leak-Proof</span></div></div>
+        <div class="lcard reveal d4"><div class="lcnum">04</div><div class="lcico">🏡</div><h3 class="lct">At Home</h3><p class="lcd">Home is where ritual lives. The Mixera's smart temperature display tells you when your morning coffee hits the perfect sip. The electric mixing cup dissolves supplements in seconds. SIPPLE fits your countertop as naturally as it fits your routine.</p><div class="lctags"><span class="lctag">🌡️ Smart Display</span><span class="lctag">7000 RPM</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sstats">
+    <div class="container">
+      <div class="sstats-row">
+        <div class="reveal"><div class="ssn">4</div><div class="ssl">Smart Products</div></div>
+        <div class="reveal d1"><div class="ssn">700ml</div><div class="ssl">Max Capacity</div></div>
+        <div class="reveal d2"><div class="ssn">7000</div><div class="ssl">RPM Motor</div></div>
+        <div class="reveal d3"><div class="ssn">24h</div><div class="ssl">Cold Insulation</div></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="miss section">
+    <div class="container">
+      <div class="miss-grid">
+        <div class="miss-img reveal"><img src="images/about-secondary.jpg" alt="SIPPLE products in daily life" width="580" height="420" loading="lazy"></div>
+        <div class="reveal d2">
+          <span class="label">Our Commitment</span>
+          <h2 class="sec-title">No unnecessary features.<br>No decorative excess.</h2>
+          <p class="sec-body" style="margin-top:.75rem">We don't add features for complexity. Every element — the ring handle, the magnetic mount, the electric mixing base, the temperature display — exists because a real person, in a real moment, needed it to work better.</p>
+          <p class="sec-body" style="margin-top:.65rem">At SIPPLE, we believe the objects you use daily shape the quality of your days. Premium materials, refined forms, intelligent function — built to last, built to perform.</p>
+          <div class="stags"><span class="stag">🔩 Stainless Steel</span><span class="stag">🧲 MagSafe</span><span class="stag">⚡ Electric Mixing</span><span class="stag">🌡️ Smart Display</span><span class="stag">🔌 Type-C USB</span></div>
+          <div style="display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.75rem">
+            <a href="/products" class="btn btn-p" data-page="products">Shop the Collection →</a>
+            <a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="btn btn-o">Chat on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pledge">
+    <div class="container">
+      <div class="pledge-inner reveal">
+        <p class="pledge-q">"Built for Modern Routines — we design smart drinkware that integrates seamlessly into real life. Whether you're working, training, travelling, or relaxing, SIPPLE is engineered to support movement, <em>not interrupt it.</em>"</p>
+        <div style="display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center">
+          <a href="/products" class="btn btn-p" data-page="products">Explore All Products →</a>
+          <a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="btn btn-wa">Get a Quote on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div><!-- /story -->
+
+
+<!-- ══ GALLERY PAGE ══ -->
+<div id="page-gallery" class="page">
+
+  <!-- Hero banner -->
+  <section class="gal-hero">
+    <div class="container gal-hero-inner">
+      <div class="reveal">
+        <span class="label">Visual Gallery</span>
+        <h1 class="gal-h1">SIPPLE in the<br><em>Real World.</em></h1>
+        <p class="gal-sub">Smart drinkware built for every moment — at your desk, at the gym, on the road, and everywhere life takes you. See how SIPPLE fits seamlessly into modern lifestyles.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collage grid -->
+  <div class="gal-grid-wrap">
+    <div class="container">
+      <div class="gal-grid">
+
+        <!-- Row 1 -->
+        <!-- Big feature: couple outdoor gym -->
+        <div class="gal-item reveal">
+          <img src="images/gallery/gym-couple.png" alt="Two people with SIPPLE bottles outdoors at city rooftop gym" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Built for Active Lifestyles</span></div>
+        </div>
+        <!-- Tall: woman holding bottle close-up -->
+        <div class="gal-item reveal d1">
+          <img src="images/gallery/woman-bottle-closeup.png" alt="Woman holding SIPPLE bottle close up" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Refined. Purposeful.</span></div>
+        </div>
+        <!-- Normal: 4 colour variants -->
+        <div class="gal-item reveal d2">
+          <img src="images/gallery/four-colours.png" alt="SPL+ bottle in four colour variants on wooden table" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">4 Colour Variants</span></div>
+        </div>
+
+        <!-- Row 2 -->
+        <!-- Normal: woman business desk -->
+        <div class="gal-item reveal d1">
+          <img src="images/gallery/business-woman-desk.png" alt="Business woman with SIPPLE bottle at desk" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">At Your Desk</span></div>
+        </div>
+        <!-- Wide: MagSafe phone mount -->
+        <div class="gal-item reveal d2">
+          <img src="images/gallery/magsafe-logo.png" alt="SIPPLE bottle with phone magnetically mounted showing YOUR LOGO" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">MagSafe Compatible — Hands-Free</span></div>
+        </div>
+        <!-- Normal: woman city professional -->
+        <div class="gal-item reveal d3">
+          <img src="images/gallery/woman-city.png" alt="Professional woman holding SIPPLE bottle with city backdrop" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">From Office to Outdoors</span></div>
+        </div>
+
+        <!-- Row 3 -->
+        <!-- Normal: woman interior holding bottle -->
+        <div class="gal-item reveal">
+          <img src="images/gallery/woman-interior.png" alt="Woman holding SIPPLE bottle indoors" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Everyday Ritual</span></div>
+        </div>
+        <!-- Normal: kitchen green branded bottle -->
+        <div class="gal-item reveal d1">
+          <img src="images/gallery/kitchen-green.png" alt="Green branded SIPPLE bottle in modern kitchen" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Custom Branding Available</span></div>
+        </div>
+        <!-- Tall: gym duo street -->
+        <div class="gal-item reveal d2">
+          <img src="images/gallery/gym-street.png" alt="Two people with SIPPLE on urban street after workout" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Post-Workout. Every Day.</span></div>
+        </div>
+        <!-- Normal: black shaker logo -->
+        <div class="gal-item reveal d3">
+          <img src="images/gallery/shaker-logo.png" alt="Electric shaker bottle with YOUR LOGO branding" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Brand Your Shaker</span></div>
+        </div>
+
+        <!-- Row 4 -->
+        <!-- Wide: shaker on counter lifestyle -->
+        <div class="gal-item reveal d1">
+          <img src="images/gallery/shaker-counter.png" alt="SIPPLE electric shaker on kitchen counter" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Effortless Mixing — Anywhere</span></div>
+        </div>
+        <!-- Normal: coffee cup smart display -->
+        <div class="gal-item reveal d2">
+          <img src="images/gallery/coffee-smart.png" alt="SIPPLE Mixera smart cup with temperature display and coffee" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Smart Temp Display</span></div>
+        </div>
+        <!-- Normal: woman black bottle kitchen -->
+        <div class="gal-item reveal d3">
+          <img src="images/gallery/woman-black-kitchen.png" alt="Woman with black branded SIPPLE bottle in kitchen" loading="lazy">
+          <div class="gal-overlay"><span class="gal-overlay-txt">Corporate Gifting</span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Gallery CTA -->
+  <div class="gal-cta">
+    <div class="container">
+      <p>Ready to put your brand on premium drinkware? Minimum 50 units. Custom colours, UV print, laser engraving — all available.</p>
+      <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://wa.me/971527940227" target="_blank" rel="noopener" class="btn btn-wa">Get a Custom Quote →</a>
+        <a href="/products" class="btn btn-o" data-page="products">View All Products</a>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-gallery -->
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ftop">
+      <div class="fbrand">
+        <a href="/" class="logo" data-page="home" aria-label="SIPPLE Home"><img class="logo-img" src="images/sipple.svg" alt="SIPPLE" loading="lazy"></a>
+        <p>Premium smart drinkware built for work, gym, travel, and modern lifestyles. Hydration Made Smarter.</p>
+      </div>
+      <div class="fcol"><h4>Products</h4><ul><li><a href="/products" data-page="products">SPL+ Bottle</a></li><li><a href="/products" data-page="products">Primexa Shaker</a></li><li><a href="/products" data-page="products">Mixpro Shaker</a></li><li><a href="/products" data-page="products">Mixera Cup</a></li></ul></div>
+      <div class="fcol"><h4>Company</h4><ul><li><a href="/our-story" data-page="story">About SIPPLE</a></li><li><a href="/gallery" data-page="gallery">Gallery</a></li><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Contact</a></li><li><a href="/products" data-page="products">All Products</a></li></ul></div>
+      <div class="fcol"><h4>Support</h4><ul><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Wholesale</a></li><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Custom Branding</a></li><li><a href="/cdn-cgi/l/email-protection#95e6f4f9f0e6a4d5fee7fae6e6b8fae3f0e7bbfbf0e1">Shipping &amp; Returns</a></li><li><a href="/cdn-cgi/l/email-protection#d3a0b2bfb6a0e293b8a1bca0a0febca5b6a1fdbdb6a7">FAQ</a></li></ul></div>
+    </div>
+    <div class="fbot">
+      <p class="fcopy">© 2026 SIPPLE. All rights reserved. Smart Hydration for Modern Lifestyles.</p>
+      <div class="socials">
+        <a href="https://instagram.com/sipple" target="_blank" rel="noopener" class="soc" aria-label="Instagram"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://linkedin.com/company/sipple" target="_blank" rel="noopener" class="soc" aria-label="LinkedIn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/><path d="M13 9s-1 0-1 1v11h4V14s0-2 2-2 2 2 2v7h4v-8s0-5-5-5-6 3-6 3z"/></svg></a>
+        <a href="https://tiktok.com/@sipple" target="_blank" rel="noopener" class="soc" aria-label="TikTok"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 106.34 6.34V8.69a8.17 8.17 0 004.77 1.52V6.77a4.85 4.85 0 01-1.01-.08z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+'use strict';
+/* Theme: restore before paint */
+(function(){const t=localStorage.getItem('sipple-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
+
+/* Cursor */
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+let rx=-100,ry=-100,cx=-100,cy=-100,curVisible=false;
+document.addEventListener('mousemove',e=>{
+  cx=e.clientX;cy=e.clientY;
+  cur.style.left=cx+'px';cur.style.top=cy+'px';
+  if(!curVisible){
+    curVisible=true;
+    cur.style.opacity='1';
+    curR.style.opacity='1';
+  }
+},{passive:true});
+document.addEventListener('mouseleave',()=>{cur.style.opacity='0';curR.style.opacity='0';});
+document.addEventListener('mouseenter',()=>{if(curVisible){cur.style.opacity='1';curR.style.opacity='1';}});
+(function tick(){rx+=(cx-rx)*.12;ry+=(cy-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(tick);})();
+
+/* Nav scroll */
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>50);},{passive:true});
+
+/* SPA Navigation */
+const URLMAP={home:'/',products:'/products',story:'/our-story',gallery:'/gallery'};
+const NAV_H=68;
+
+function navigate(pageId,sectionId){
+  /* 1. Switch page */
+  window.scrollTo(0,0);
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg=document.getElementById('page-'+pageId);
+  if(!pg) return;
+  pg.classList.add('active');
+
+  /* 2. Nav active state */
+  document.querySelectorAll('.nav-links a[id]').forEach(a=>a.classList.remove('active'));
+  const nl=document.getElementById('nav-'+pageId);
+  if(nl) nl.classList.add('active');
+
+  /* 3. Push URL */
+  history.pushState({pageId,sectionId:sectionId||null},'',URLMAP[pageId]||'/');
+
+  /* 4. Scroll to section
+     Use setTimeout(100ms) — gives browser time to fully render the
+     newly-visible page before we measure getBoundingClientRect.
+     Two rAFs (~32ms) is not reliable enough after display:block switch. */
+  if(sectionId){
+    setTimeout(()=>{
+      const el=document.getElementById(sectionId);
+      if(el){
+        const top=el.getBoundingClientRect().top+window.scrollY-NAV_H-8;
+        window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+      }
+    },100);
+  }
+
+  setTimeout(initReveal,200);
+}
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-page]');
+  if(!el||!el.dataset.page) return;
+  if(el.getAttribute('target')==='_blank') return;
+  e.preventDefault();
+  closeMob();
+  navigate(el.dataset.page,el.dataset.section||null);
+});
+window.addEventListener('popstate',e=>{if(e.state) navigate(e.state.pageId,e.state.sectionId);});
+(function routeOnLoad(){
+  const p=location.pathname;
+  if(p==='/products') navigate('products',null);
+  else if(p==='/our-story') navigate('story',null);
+  else if(p==='/gallery') navigate('gallery',null);
+  else if(p==='/contact'||p==='/wholesale'||p==='/branding'||p==='/shipping'||p==='/faq') navigate('home','contact-section');
+})();
+
+/* Mobile menu */
+const hamBtn=document.getElementById('hamBtn'),mob=document.getElementById('mobMenu');
+hamBtn.addEventListener('click',()=>{mob.classList.add('open');hamBtn.setAttribute('aria-expanded','true');document.body.style.overflow='hidden';});
+function closeMob(){mob.classList.remove('open');hamBtn.setAttribute('aria-expanded','false');document.body.style.overflow='';}
+const mobXBtn=document.getElementById('mobX');
+mobXBtn.addEventListener('click',closeMob);
+mobXBtn.addEventListener('touchend',function(e){e.preventDefault();closeMob();});
+mob.addEventListener('click',e=>{if(e.target===mob)closeMob();});
+/* Mob theme btn */
+const mobThemeBtn=document.getElementById('mobThemeBtn');
+if(mobThemeBtn){
+  mobThemeBtn.addEventListener('click',()=>{
+    const html=document.documentElement;
+    const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+    html.setAttribute('data-theme',next);
+    localStorage.setItem('sipple-theme',next);
+  });
+}
+
+/* Scroll reveal */
+function initReveal(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});
+  },{threshold:.08,rootMargin:'0px 0px -16px 0px'});
+  document.querySelectorAll('.reveal:not(.vis)').forEach(el=>io.observe(el));
+}
+initReveal();
+
+/* Colour switcher */
+document.querySelectorAll('.clr-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.clr-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-pressed','false');});
+    btn.classList.add('active');btn.setAttribute('aria-pressed','true');
+    const img=document.getElementById('featImg'),src=btn.dataset.img||'',alt=btn.dataset.alt||'';
+    if(img&&src){
+      img.style.opacity='0';img.style.transform='scale(.96)';
+      setTimeout(()=>{img.src=src;img.alt=alt;img.style.transition='opacity .32s,transform .32s';img.style.opacity='1';img.style.transform='';},200);
+    }
+  });
+});
+
+/* Product filter */
+document.querySelectorAll('.fbtn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('.prodcard').forEach(c=>{c.style.display=(f==='all'||c.dataset.cat===f)?'':'none';});
+  });
+});
+
+/* Custom branding panel */
+const cvD={uv:{icon:'🎨',title:'UV Printing',desc:'Full-colour photo-quality UV prints. Print area: 85×32mm. Ideal for complex logos.'},dtf:{icon:'🖨️',title:'DTF / Screen',desc:'Heat-transfer DTF and screen printing. Durable, long-lasting colour.'},engrave:{icon:'✨',title:'Laser Engraving',desc:'Permanent personalisation etched into metal. Ideal for luxury corporate gifts.'},rotate:{icon:'🔄',title:'Rotary Printing',desc:'360° wrap-around branding. Maximum brand visibility from every angle.'}};
+document.querySelectorAll('.cpill').forEach(p=>{
+  p.addEventListener('click',()=>{
+    document.querySelectorAll('.cpill').forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+    const k=p.dataset.cv,pan=document.getElementById('cvPanel');
+    pan.style.opacity='0';pan.style.transform='translateY(8px)';
+    setTimeout(()=>{
+      document.getElementById('cvIcon').textContent=cvD[k].icon;
+      document.getElementById('cvTitle').textContent=cvD[k].title;
+      document.getElementById('cvDesc').textContent=cvD[k].desc;
+      pan.style.transition='opacity .28s,transform .28s';
+      pan.style.opacity='1';pan.style.transform='none';
+    },180);
+  });
+});
+
+/* Theme toggle */
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const html=document.documentElement;
+  const next=html.getAttribute('data-theme')==='dark'?'light':'dark';
+  html.setAttribute('data-theme',next);
+  localStorage.setItem('sipple-theme',next);
+});
+
+/* Contact form */
+function sendForm(e){
+  e.preventDefault();
+  const f=e.target;
+  const name=f.querySelector('[aria-label="Name"]')?.value||'';
+  const email=f.querySelector('[aria-label="Email"]')?.value||'';
+  const company=f.querySelector('[aria-label="Company"]')?.value||'';
+  const enquiry=f.querySelector('select')?.value||'General Enquiry';
+  const msg=f.querySelector('[aria-label="Message"]')?.value||'';
+  const sub=encodeURIComponent('SIPPLE Enquiry - '+enquiry);
+  const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nCompany: '+company+'\nEnquiry: '+enquiry+'\n\n'+msg);
+  window.location.href='mailto:sales1@kross-over.net?subject='+sub+'&body='+body;
+  const btn=f.querySelector('button[type="submit"]'),orig=btn.textContent;
+  btn.textContent='Opening Email...';
+  setTimeout(()=>{btn.textContent=orig;},3000);
+}
+</script>
+</body>
+</html>
