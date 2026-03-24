@@ -915,7 +915,7 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
           <button type="submit" class="btn btn-p" style="justify-self:start">Send Message →</button>
         </form>
         <div class="ci-list reveal d2">
-          <div class="ci"><div class="ci-ico">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="/cdn-cgi/l/email-protection#f784969b9284c6b79c85988484da98819285d9999283"><span class="__cf_email__" data-cfemail="5221333e3721631239203d21217f3d2437207c3c3726">[email&#160;protected]</span></a></div></div></div>
+          <div class="ci"><div class="ci-ico">📧</div><div><div class="ci-lbl">Email</div><div class="ci-val"><a href="mailto:sales1@kross-over.net">sales1@kross-over.net</a></div></div></div>
           <div class="ci"><div class="ci-ico">💬</div><div><div class="ci-lbl">WhatsApp</div><div class="ci-val"><a href="https://wa.me/971527940227" target="_blank" rel="noopener" style="color:var(--green)">+971 52 794 0227</a></div></div></div>
           <div class="ci"><div class="ci-ico">🎨</div><div><div class="ci-lbl">Custom Branding</div><div class="ci-val">Minimum 50 units per design</div></div></div>
           <div class="ci"><div class="ci-ico">🚚</div><div><div class="ci-lbl">Shipping</div><div class="ci-val">Worldwide · Free on 100+ orders</div></div></div>
@@ -1231,7 +1231,7 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
       </div>
       <div class="fcol"><h4>Products</h4><ul><li><a href="/products" data-page="products">SPL+ Bottle</a></li><li><a href="/products" data-page="products">Primexa Shaker</a></li><li><a href="/products" data-page="products">Mixpro Shaker</a></li><li><a href="/products" data-page="products">Mixera Cup</a></li></ul></div>
       <div class="fcol"><h4>Company</h4><ul><li><a href="/our-story" data-page="story">About SIPPLE</a></li><li><a href="/gallery" data-page="gallery">Gallery</a></li><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Contact</a></li><li><a href="/products" data-page="products">All Products</a></li></ul></div>
-      <div class="fcol"><h4>Support</h4><ul><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Wholesale</a></li><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Custom Branding</a></li><li><a href="/cdn-cgi/l/email-protection#a2d1c3cec7d193e2c9d0cdd1d18fcdd4c7d08cccc7d6">Shipping &amp; Returns</a></li><li><a href="/cdn-cgi/l/email-protection#35465459504604755e475a4646185a4350471b5b5041">FAQ</a></li></ul></div>
+      <div class="fcol"><h4>Support</h4><ul><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Wholesale</a></li><li><a href="https://wa.me/971527940227" target="_blank" rel="noopener">Custom Branding</a></li><li><a href="mailto:sales1@kross-over.net">Shipping &amp; Returns</a></li><li><a href="mailto:sales1@kross-over.net">FAQ</a></li></ul></div>
     </div>
     <div class="fbot">
       <p class="fcopy">© 2026 SIPPLE. All rights reserved. Smart Hydration for Modern Lifestyles.</p>
@@ -1244,7 +1244,7 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 'use strict';
 /* Theme: restore before paint */
 (function(){const t=localStorage.getItem('sipple-theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
@@ -1426,4 +1426,12 @@ function sendForm(e){
   const enquiry=f.querySelector('select')?.value||'General Enquiry';
   const msg=f.querySelector('[aria-label="Message"]')?.value||'';
   const sub=encodeURIComponent('SIPPLE Enquiry - '+enquiry);
-  const body=encodeURIComponent('Name: '+name+'\nEmail:
+  const body=encodeURIComponent('Name: '+name+'\nEmail: '+email+'\nCompany: '+company+'\nEnquiry: '+enquiry+'\n\n'+msg);
+  window.location.href='mailto:sales1@kross-over.net?subject='+sub+'&body='+body;
+  const btn=f.querySelector('button[type="submit"]'),orig=btn.textContent;
+  btn.textContent='Opening Email...';
+  setTimeout(()=>{btn.textContent=orig;},3000);
+}
+</script>
+</body>
+</html>
