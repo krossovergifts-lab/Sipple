@@ -210,13 +210,6 @@ body:has(a:hover) #cur,body:has(button:hover) #cur{width:18px;height:18px;opacit
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,7rem);align-items:center}
 .about-img-wrap{position:relative;border-radius:var(--r2);overflow:hidden}
 .about-img-wrap img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center top;display:block;border-radius:var(--r2)}
-.about-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 52%,rgba(7,9,15,.9) 100%);border-radius:var(--r2);pointer-events:none}
-[data-theme="light"] .about-img-wrap::after{background:linear-gradient(to bottom,transparent 52%,rgba(240,244,251,.9) 100%)}
-.about-stats{position:absolute;bottom:0;left:0;right:0;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);padding:1.5rem}
-.astat{text-align:center;border-right:1px solid rgba(255,255,255,.12);padding-inline:.5rem}
-.astat:last-child{border-right:none}
-.astat-n{font-family:'Syne',sans-serif;font-size:clamp(1.4rem,2.2vw,1.9rem);font-weight:800;color:#fff!important;line-height:1}
-.astat-l{font-size:.6rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55)!important;margin-top:.3rem}
 .about-feats{display:grid;gap:0;margin-top:2rem}
 .afeat{display:flex;align-items:flex-start;gap:.9rem;padding:1rem 0;border-top:1px solid var(--bdr)}
 .afeat:last-child{border-bottom:1px solid var(--bdr)}
@@ -404,12 +397,6 @@ body:has(a:hover) #cur,body:has(button:hover) #cur{width:18px;height:18px;opacit
 .cpt{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;color:var(--txt);margin-bottom:.6rem}
 .cpd{font-size:.87rem;color:var(--txt2);line-height:1.68}
 
-/* STATS */
-.stats-band{padding-block:clamp(2.5rem,5vw,4rem);background:var(--surf2);border-block:1px solid var(--bdr)}
-.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:1.5rem;text-align:center}
-.sn{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;background:linear-gradient(135deg,var(--txt),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-.sl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-top:.35rem}
-
 /* REVIEWS */
 .rev-track{display:flex;gap:.9rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.5rem;margin-top:2.5rem;scroll-snap-type:x mandatory}
 .rev-track::-webkit-scrollbar{display:none}
@@ -548,11 +535,6 @@ textarea.cf{resize:vertical;min-height:108px}
 .lcd{font-size:.86rem;color:var(--txt2);line-height:1.72}
 .lctags{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:1.1rem}
 .lctag{background:var(--bdim);border:1px solid rgba(4,96,217,.2);padding:.28rem .75rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;color:var(--blue)}
-/* Story stats */
-.sstats{background:var(--surf2);border-block:1px solid var(--bdr);padding-block:clamp(2.5rem,5vw,4rem)}
-.sstats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;text-align:center}
-.ssn{font-family:'Syne',sans-serif;font-size:clamp(1.9rem,3.5vw,3rem);font-weight:800;background:linear-gradient(135deg,var(--txt),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-.ssl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--txt3);margin-top:.35rem}
 /* Mission */
 .miss{padding-block:clamp(4rem,8vw,7rem)}
 .miss-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center}
@@ -604,7 +586,6 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
   .t-hot{width:28px;height:28px}
   .t-hot::after{inset:6px}
   .life-grid{grid-template-columns:1fr}
-  .sstats-row{grid-template-columns:repeat(2,1fr)}
   .ftop{grid-template-columns:1fr 1fr}
   .prev-grid{grid-template-columns:repeat(2,1fr)}
   .pgrid{grid-template-columns:repeat(2,1fr)}
@@ -624,7 +605,6 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
   .hero-btns,.sh-btns{flex-direction:column;align-items:flex-start}
 }
 @media(max-width:480px){
-  .stats-row,.sstats-row{grid-template-columns:repeat(2,1fr)}
   .tech-stats{grid-template-columns:repeat(2,1fr)}
   .pspecs{grid-template-columns:1fr}
   .print-grid{grid-template-columns:repeat(2,1fr)}
@@ -802,11 +782,6 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
       <div class="about-grid">
         <div class="about-img-wrap reveal">
           <img src="images/about-main.jpg" alt="Person holding SIPPLE bottle" width="560" height="700" loading="lazy">
-          <div class="about-stats">
-            <div class="astat"><div class="astat-n">4</div><div class="astat-l">Products</div></div>
-            <div class="astat"><div class="astat-n">700ml</div><div class="astat-l">Capacity</div></div>
-            <div class="astat"><div class="astat-n">7000</div><div class="astat-l">RPM</div></div>
-          </div>
         </div>
         <div>
           <div class="reveal"><span class="label">Our Story</span><h2 class="sec-title" id="abt-t">Rethinking how<br>the world hydrates.</h2><p class="sec-body">SIPPLE was created to rethink something simple: the way we drink water every day. Hydration is constant — it moves with us from desks to gyms, commutes to kitchens. SIPPLE exists to close that gap.</p></div>
@@ -1012,17 +987,6 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
     </div>
   </section>
 
-  <div class="stats-band">
-    <div class="container">
-      <div class="stats-row">
-        <div class="reveal"><div class="sn">700ml</div><div class="sl">Max Capacity</div></div>
-        <div class="reveal d1"><div class="sn">7000</div><div class="sl">RPM Motor</div></div>
-        <div class="reveal d2"><div class="sn">24h</div><div class="sl">Insulation</div></div>
-        <div class="reveal d3"><div class="sn">4</div><div class="sl">Smart Products</div></div>
-      </div>
-    </div>
-  </div>
-
   <section id="reviews-section" class="section">
     <div class="container">
       <div class="reveal" style="margin-bottom:0"><span class="label">Reviews</span><h2 class="sec-title">What People Are Saying</h2></div>
@@ -1212,17 +1176,6 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
       </div>
     </div>
   </section>
-
-  <div class="sstats">
-    <div class="container">
-      <div class="sstats-row">
-        <div class="reveal"><div class="ssn">4</div><div class="ssl">Smart Products</div></div>
-        <div class="reveal d1"><div class="ssn">700ml</div><div class="ssl">Max Capacity</div></div>
-        <div class="reveal d2"><div class="ssn">7000</div><div class="ssl">RPM Motor</div></div>
-        <div class="reveal d3"><div class="ssn">24h</div><div class="ssl">Cold Insulation</div></div>
-      </div>
-    </div>
-  </div>
 
   <section class="miss section">
     <div class="container">
