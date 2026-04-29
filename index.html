@@ -454,21 +454,81 @@ textarea.cf{resize:vertical;min-height:108px}
   animation:shimmer 1.4s ease-in-out infinite;
 }
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-/* Full-bleed cover image fills entire card top */
-.prodthumb img{
+
+/* ── Gallery track: horizontal scroll with snap ── */
+.pgal{
+  position:absolute;inset:0;z-index:1;
+  display:flex;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.pgal::-webkit-scrollbar{display:none}
+.pgal-slide{
+  flex:0 0 100%;width:100%;height:100%;
+  scroll-snap-align:start;scroll-snap-stop:always;
+  position:relative;
+}
+.pgal-slide img{
   width:100%;height:100%;
-  object-fit:cover;
-  object-position:center center;
+  object-fit:cover;object-position:center center;
   filter:none!important;
   transition:transform .5s var(--e1);
   display:block;
 }
-.prodcard:hover .prodthumb img{transform:scale(1.05)}
-/* Subtle gradient fade into card body */
+.prodcard:hover .pgal-slide img{transform:scale(1.04)}
+
+/* ── Arrow buttons (desktop hover, mobile always) ── */
+.pgal-arr{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:4;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(7,9,15,.55);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.1);
+  color:#fff;display:grid;place-items:center;
+  cursor:none;opacity:0;transition:opacity .25s,background .2s,transform .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.prodcard:hover .pgal-arr{opacity:1}
+.pgal-arr:hover{background:var(--blue);transform:translateY(-50%) scale(1.08)}
+.pgal-arr.prev{left:.7rem}
+.pgal-arr.next{right:.7rem}
+.pgal-arr svg{width:16px;height:16px}
+.pgal-arr[disabled]{opacity:.25!important;cursor:default;pointer-events:none}
+
+/* ── Dots indicator ── */
+.pgal-dots{
+  position:absolute;bottom:.7rem;left:50%;transform:translateX(-50%);z-index:3;
+  display:flex;gap:.35rem;
+}
+.pgal-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(255,255,255,.4);border:none;padding:0;
+  cursor:none;transition:all .25s var(--e2);
+  -webkit-tap-highlight-color:transparent;
+}
+.pgal-dot.active{background:#fff;width:18px;border-radius:3px}
+
+/* ── Image counter (top-right) ── */
+.pgal-count{
+  position:absolute;top:.9rem;right:.9rem;z-index:3;
+  font-family:'Syne',sans-serif;font-size:.62rem;font-weight:700;
+  letter-spacing:.08em;color:rgba(255,255,255,.85);
+  background:rgba(7,9,15,.55);backdrop-filter:blur(8px);
+  padding:.32rem .6rem;border-radius:999px;
+  border:1px solid rgba(255,255,255,.08);
+}
+
+/* ── Single-image cards: hide all gallery chrome ── */
+.prodthumb[data-count="1"] .pgal-arr,
+.prodthumb[data-count="1"] .pgal-dots,
+.prodthumb[data-count="1"] .pgal-count{display:none}
+.prodthumb[data-count="1"] .pgal{overflow:hidden}
+
+/* Subtle gradient fade into card body — kept above gallery */
 .prodthumb::after{
   content:'';position:absolute;inset:0;
   background:linear-gradient(to top,var(--surf) 0%,transparent 35%);
-  pointer-events:none;z-index:1;
+  pointer-events:none;z-index:2;
 }
 .pbrow{position:absolute;top:.9rem;left:.9rem;z-index:3;display:flex;gap:.4rem}
 .psku2{position:absolute;bottom:.9rem;left:.9rem;z-index:3;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4)}
@@ -1053,7 +1113,17 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
     <div class="pgrid">
       <article class="prodcard" data-cat="bottle">
         <div class="prodthumb">
-          <img src="images/product-spl.jpg" alt="SPL+ Magnetic Insulated Water Bottle" width="800" height="540" loading="eager" decoding="async">
+          <div class="pgal" tabindex="0" aria-label="SPL+ image gallery">
+            <div class="pgal-slide"><img src="images/product-spl.jpg" alt="SPL+ Magnetic Insulated Water Bottle" width="800" height="540" loading="eager" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/spl-chalk.png" alt="SPL+ in Chalk White colourway" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/spl-black.png" alt="SPL+ in Black colourway" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/spl-forest.png" alt="SPL+ in Forest Green colourway" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/spl-navy.png" alt="SPL+ in Navy Blue colourway" width="800" height="540" loading="lazy" decoding="async"></div>
+          </div>
+          <button class="pgal-arr prev" type="button" aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="pgal-arr next" type="button" aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <div class="pgal-dots" role="tablist" aria-label="Image dots"></div>
+          <div class="pgal-count"><span class="pgc-cur">1</span> / <span class="pgc-tot">5</span></div>
           <div class="pbrow"><span style="background:var(--blue);color:#fff;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:700">NEW</span></div>
           <div class="psku2">SPL+ · 11651</div>
         </div>
@@ -1067,7 +1137,17 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
       </article>
       <article class="prodcard" data-cat="shaker">
         <div class="prodthumb">
-          <img src="images/product-primexa.jpg" alt="Primexa Portable Electric Shaker Bottle" width="800" height="540" loading="eager" decoding="async">
+          <div class="pgal" tabindex="0" aria-label="Primexa image gallery">
+            <div class="pgal-slide"><img src="images/product-primexa.jpg" alt="Primexa Portable Electric Shaker Bottle" width="800" height="540" loading="eager" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/primexa-2.svg" alt="Primexa side view" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/primexa-3.svg" alt="Primexa detail view" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/primexa-4.svg" alt="Primexa in use" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/primexa-5.svg" alt="Primexa packaging" width="800" height="540" loading="lazy" decoding="async"></div>
+          </div>
+          <button class="pgal-arr prev" type="button" aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="pgal-arr next" type="button" aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <div class="pgal-dots" role="tablist" aria-label="Image dots"></div>
+          <div class="pgal-count"><span class="pgc-cur">1</span> / <span class="pgc-tot">1</span></div>
           <div class="pbrow"><span style="background:var(--blue);color:#fff;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:700">NEW</span></div>
           <div class="psku2">Primexa · 11669</div>
         </div>
@@ -1081,7 +1161,17 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
       </article>
       <article class="prodcard" data-cat="shaker">
         <div class="prodthumb">
-          <img src="images/product-mixpro.jpg" alt="Mixpro Sports Electric Shaker" width="800" height="540" loading="eager" decoding="async">
+          <div class="pgal" tabindex="0" aria-label="Mixpro image gallery">
+            <div class="pgal-slide"><img src="images/product-mixpro.jpg" alt="Mixpro Sports Electric Shaker" width="800" height="540" loading="eager" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/mixpro-2.svg" alt="Mixpro side view" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/mixpro-3.svg" alt="Mixpro detail view" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/mixpro-4.svg" alt="Mixpro in use" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/mixpro-5.svg" alt="Mixpro packaging" width="800" height="540" loading="lazy" decoding="async"></div>
+          </div>
+          <button class="pgal-arr prev" type="button" aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="pgal-arr next" type="button" aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <div class="pgal-dots" role="tablist" aria-label="Image dots"></div>
+          <div class="pgal-count"><span class="pgc-cur">1</span> / <span class="pgc-tot">1</span></div>
           <div class="pbrow"><span style="background:var(--blue);color:#fff;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:700">NEW</span></div>
           <div class="psku2">Mixpro · 11670</div>
         </div>
@@ -1095,7 +1185,17 @@ footer{background:var(--surf2);border-top:1px solid var(--bdr);padding-block:2.7
       </article>
       <article class="prodcard" data-cat="cup">
         <div class="prodthumb">
-          <img src="images/product-mixera.jpg" alt="Mixera Smart Electric Mixing Cup" width="800" height="540" loading="eager" decoding="async">
+          <div class="pgal" tabindex="0" aria-label="Mixera image gallery">
+            <div class="pgal-slide"><img src="images/product-mixera.jpg" alt="Mixera Smart Electric Mixing Cup" width="800" height="540" loading="eager" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/mixera-2.svg" alt="Mixera side view" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/mixera-3.svg" alt="Mixera detail view" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/mixera-4.svg" alt="Mixera in use" width="800" height="540" loading="lazy" decoding="async"></div>
+            <div class="pgal-slide"><img src="images/mixera-5.svg" alt="Mixera packaging" width="800" height="540" loading="lazy" decoding="async"></div>
+          </div>
+          <button class="pgal-arr prev" type="button" aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="pgal-arr next" type="button" aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+          <div class="pgal-dots" role="tablist" aria-label="Image dots"></div>
+          <div class="pgal-count"><span class="pgc-cur">1</span> / <span class="pgc-tot">1</span></div>
           <div class="pbrow"><span style="background:var(--blue);color:#fff;padding:.2rem .58rem;border-radius:999px;font-family:'Syne',sans-serif;font-size:.61rem;font-weight:700">NEW</span></div>
           <div class="psku2">Mixera · 11671</div>
         </div>
@@ -1588,6 +1688,78 @@ function sendForm(e){
   } else {
     inView=true;start();
   }
+})();
+/* Product Image Gallery — auto-counts slides, works for 1 to N images */
+(function(){
+  const galleries=document.querySelectorAll('.prodthumb .pgal');
+  if(!galleries.length) return;
+
+  galleries.forEach(track=>{
+    const wrap=track.parentElement;
+    const slides=track.querySelectorAll('.pgal-slide');
+    const total=slides.length;
+    const prevBtn=wrap.querySelector('.pgal-arr.prev');
+    const nextBtn=wrap.querySelector('.pgal-arr.next');
+    const dotsBox=wrap.querySelector('.pgal-dots');
+    const curEl=wrap.querySelector('.pgc-cur');
+    const totEl=wrap.querySelector('.pgc-tot');
+
+    /* Auto-set total count → no manual data-count or pgc-tot updates needed */
+    wrap.setAttribute('data-count',total);
+    if(totEl) totEl.textContent=total;
+
+    /* Single-image: hide chrome via CSS, no JS needed */
+    if(total<=1){return;}
+
+    /* Build dots */
+    if(dotsBox){
+      for(let i=0;i<total;i++){
+        const d=document.createElement('button');
+        d.className='pgal-dot'+(i===0?' active':'');
+        d.type='button';
+        d.setAttribute('aria-label',`Image ${i+1} of ${total}`);
+        d.addEventListener('click',()=>goTo(i));
+        dotsBox.appendChild(d);
+      }
+    }
+    const dots=dotsBox?dotsBox.querySelectorAll('.pgal-dot'):[];
+
+    let cur=0;
+    function goTo(i){
+      cur=Math.max(0,Math.min(total-1,i));
+      track.scrollTo({left:cur*track.clientWidth,behavior:'smooth'});
+      sync();
+    }
+    function sync(){
+      if(curEl) curEl.textContent=cur+1;
+      dots.forEach((d,i)=>d.classList.toggle('active',i===cur));
+      if(prevBtn) prevBtn.toggleAttribute('disabled',cur===0);
+      if(nextBtn) nextBtn.toggleAttribute('disabled',cur===total-1);
+    }
+
+    /* Arrow handlers (stop click bubbling so card clicks elsewhere still work) */
+    if(prevBtn) prevBtn.addEventListener('click',e=>{e.stopPropagation();goTo(cur-1);});
+    if(nextBtn) nextBtn.addEventListener('click',e=>{e.stopPropagation();goTo(cur+1);});
+
+    /* Track scroll → update current slide */
+    let scrollTimer;
+    track.addEventListener('scroll',()=>{
+      clearTimeout(scrollTimer);
+      scrollTimer=setTimeout(()=>{
+        const i=Math.round(track.scrollLeft/track.clientWidth);
+        if(i!==cur){cur=i;sync();}
+      },80);
+    });
+
+    /* Keyboard: arrow keys when track focused */
+    track.addEventListener('keydown',e=>{
+      if(e.key==='ArrowLeft'){e.preventDefault();goTo(cur-1);}
+      else if(e.key==='ArrowRight'){e.preventDefault();goTo(cur+1);}
+    });
+
+    /* Initial sync */
+    sync();
+  });
 })();
 </script>
 </body>
